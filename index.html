@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kortz Center Heist Master Matrix</title>
+    <style>
+        /* Pure Code Abstract Geometric Silhouette Mansion Background - Visibility Turned Up */
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            margin: 0; padding: 20px; background-color: #0c0c12; color: #e2e2e9; 
+            background-image: 
+                radial-gradient(rgba(214, 51, 108, 0.12) 20%, transparent 25%),
+                radial-gradient(rgba(214, 51, 108, 0.12) 20%, transparent 25%),
+                linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+            background-size: 80px 40px, 80px 40px, 40px 40px, 40px 40px;
+            background-position: 0 0, 40px 20px, 0 0, 0 0; background-attachment: fixed;
+        }
+        .container { max-width: 1050px; margin: 0 auto; background-color: rgba(18, 18, 26, 0.95); padding: 30px; border-radius: 12px; border: 1px solid #1f1f2e; box-sizing: border-box; backdrop-filter: blur(4px); position: relative; }
+        h1, h2, .col-header { text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        h1 { color: #00ff88; font-size: 38px; margin-bottom: 5px; font-weight: 800; text-shadow: 0 0 12px rgba(0, 255, 136, 0.2); } 
+        h2 { color: #00e1ff; border-bottom: 2px solid #222233; padding-bottom: 6px; margin-top: 35px; font-size: 16px; text-decoration: underline; text-underline-offset: 4px; } 
+        .subtitle { text-align: center; color: #b055ff; margin-bottom: 35px; font-size: 30px; font-weight: bold; letter-spacing: 0.5px; }
+        .note { text-align: center; font-size: 12px; color: #ffaa00; margin-top: -8px; margin-bottom: 15px; font-style: italic; }
+        /* Sticky Heads-Up Overlay Layout Rules */
+        .hud-wrapper { display: flex; justify-content: space-between; position: -webkit-sticky; position: sticky; top: 10px; z-index: 1000; pointer-events: none; width: 100%; margin-bottom: -100px; }
+        .hud-left { width: 180px; background-color: rgba(26, 21, 10, 0.95); border: 1px solid #ffaa00; border-radius: 8px; padding: 12px; box-sizing: border-box; pointer-events: auto; backdrop-filter: blur(4px); }
+        .hud-left h3 { margin: 0 0 8px 0; color: #ffaa00; font-size: 12px; text-transform: uppercase; text-align: center; border-bottom: 1px solid #443311; padding-bottom: 4px; }
+        #special-list-container { font-size: 11px; color: #ffd480; line-height: 1.4; text-align: center; }
+        .special-total-row { text-align: center; margin-top: 8px; padding-top: 4px; border-top: 1px dashed #554411; font-weight: bold; color: #ffaa00; font-size: 12px; }
+        .hud-alert-row { color: #ff3b30 !important; font-weight: bold; text-decoration: line-through; opacity: 0.5; }
+
+        .hud-right { width: 180px; background-color: rgba(11, 21, 26, 0.95); border: 1px solid #00e1ff; border-radius: 8px; padding: 12px; box-sizing: border-box; text-align: center; pointer-events: auto; backdrop-filter: blur(4px); }
+        .hud-right h3 { margin: 0 0 8px 0; color: #00e1ff; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #113344; padding-bottom: 4px; }
+        .timer-display { font-size: 24px; font-weight: bold; color: #fff; font-family: monospace; margin: 5px 0; text-shadow: 0 0 8px rgba(255,255,255,0.3); }
+        .timer-btn { background-color: #00e1ff; color: #000; border: none; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; margin: 2px; text-transform: uppercase; }
+        .timer-note { font-size: 10px; color: #ffaa00; margin-top: 6px; line-height: 1.3; font-style: italic; font-weight: bold; }
+        /* Centered Card Wrapping Containers */
+        .centered-card-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 25px; box-sizing: border-box; }
+        .top-panel-card { background-color: #1a1a26; padding: 20px; border-radius: 8px; display: flex; flex-direction: column; gap: 12px; border: 1px solid #28283d; width: 100%; max-width: 510px; box-sizing: border-box; }
+        .top-panel-card label { font-weight: bold; color: #00ff88 !important; font-size: 12px; text-transform: uppercase; text-align: center; }
+
+        /* Grid Column Configurations */
+        .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .col-header { grid-column: span 1; color: #00e1ff !important; font-size: 13px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; text-align: center; border-bottom: 1px solid #222233; padding-bottom: 4px; }
+        h3.group-title { color: #00e1ff !important; font-size: 14px; margin: 25px 0 10px 0; font-weight: bold; text-transform: uppercase; text-align: center; border-bottom: 1px dashed #333344; padding-bottom: 6px; }
+        
+        .loot-card { background-color: #0b0b10; padding: 15px; border-radius: 8px; border: 1px solid #1f1f2e; display: flex; flex-direction: column; gap: 10px; text-align: center; box-sizing: border-box; transition: all 0.2s ease; }
+        .item-name { color: #b055ff !important; font-weight: bold; font-size: 14px; text-transform: uppercase; text-align: center; }
+        .card-action-row { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px; border: 1px solid #222233; margin-top: auto; }
+        
+        input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"], select { -moz-appearance: textfield; padding: 8px; background-color: #06060a; border: 1px solid #363654; color: #fff; border-radius: 6px; font-size: 13px; box-sizing: border-box; width: 100%; text-align: center; }
+        .gold-box-row { background-color: rgba(255, 170, 0, 0.12) !important; border: 1px solid #ffaa00 !important; }
+        .card-burned { opacity: 0.35 !important; filter: grayscale(50%); }
+        .card-burned .item-name { color: #ff3b30 !important; text-decoration: line-through !important; }
+        
+        .voice-ptt-btn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background-color: #00ff88; color: #000; border: 2px solid #06060a; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,255,136,0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 2000; transition: all 0.2s ease; }
+        .voice-ptt-btn.listening { background-color: #ff3b30 !important; color: #fff !important; box-shadow: 0 0 20px #ff3b30; animation: pttPulse 1.2s infinite; }
+        @keyframes pttPulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+        
+        @media (max-width: 768px) { .card-grid, .card-grid-3 { grid-template-columns: 1fr !important; } .col-header { display: none !important; } .hud-wrapper { display: none !important; } }
+    </style>
+</head>
+<body>
+
+<div class="hud-wrapper">
+    <div class="hud-left">
+        <h3>📋 Buyer's Request</h3>
+        <div id="special-list-container">No targets flagged yet.</div>
+        <div class="special-total-row">Total Request: <span id="special-total-val">$0</span></div>
+    </div>
+    <div class="hud-right">
+        <h3>⏱️ Speedrun Timer</h3>
+        <div class="timer-display" id="time-clock">17:00</div>
+        <button class="timer-btn" onclick="toggleTimer()" id="timer-toggle-btn">Start</button>
+        <button class="timer-btn" onclick="resetTimer()" style="position:static;width:auto;padding:4px 8px;margin:2px;">Reset</button>
+        <div class="timer-note">!! MAKE SURE TO PAUSE DURING CUTSCENES, THEY DON'T COUNT TOWARDS YOUR OVERALL TIME !!</div>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Kortz Center Heist Master Matrix</h1>
+    <div class="subtitle">Custom Tactical Route Planner for Solo & Multi-Crew Runs</div>
+
+    <div class="centered-card-wrapper">
+        <div class="top-panel-card">
+            <label for="val-primary">($) Primary Target ($)</label>
+            <input type="number" id="val-primary" placeholder="(Average Price: $300,000)">
+            <label for="opt-primary" style="margin-top:5px;">Sell / Keep</label>
+            <select id="opt-primary" style="text-align-last: center;">
+                <option value="sell">Sell Target</option>
+                <option value="keep">Keep Target</option>
+            </select>
+        </div>
+    </div>
+    <h2>1. Vault Room Locations</h2>
+    <div class="note">Perspective Matrix: Staring directly forward at primary target.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Side Vault Assets</div>
+        <div class="col-header">Right Side Vault Assets</div>
+
+        <!-- Left Front Row -->
+        <div class="loot-card" id="row-vleftfront">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">FRONT ROW</div>
+            <div class="item-name">Painting: The Hunter Becomes the Hunted</div>
+            <input type="number" id="val-vleftfront" placeholder="(Average Price: $82,000)" data-pct="50">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vleftfront" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <!-- Right Front Row -->
+        <div class="loot-card" id="row-vrightfront">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">FRONT ROW</div>
+            <div class="item-name">Painting: With Friends Like These</div>
+            <input type="number" id="val-vrightfront" placeholder="(Average Price: $82,000)" data-pct="50">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vrightfront" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <!-- Left Back Row -->
+        <div class="loot-card" id="row-vleftback">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">BACK ROW</div>
+            <div class="item-name">Painting: Swing Set Study Number LXiX</div>
+            <input type="number" id="val-vleftback" placeholder="(Average Price: $85,000)" data-pct="50">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vleftback" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <!-- Right Back Row -->
+        <div class="loot-card" id="row-vrightback">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">BACK ROW</div>
+            <div class="item-name">Painting: Het Gouden Hondje</div>
+            <input type="number" id="val-vrightback" placeholder="(Average Price: $81,000)" data-pct="50">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vrightback" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+    </div>
+    <h2>2. Loading Bay</h2>
+    <div class="loot-card" id="row-van" style="margin-bottom:20px;">
+        <div class="item-name">Loading Bay Van</div>
+        <input type="number" id="val-van" placeholder="(Average Price: $130,000)">
+        <div class="card-action-row">
+            <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="van" style="margin-left:5px; vertical-align:middle;"></span>
+            <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 25%</span>
+        </div>
+    </div>
+
+    <h2>3. Middle Level Floor Assets</h2>
+    <div class="note">Perspective Matrix: When entering through the front entrance.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Side Assets</div>
+        <div class="col-header">Right Side Assets</div>
+
+        <!-- Left Side Cards -->
+        <div class="loot-card" id="row-explain">
+            <div class="item-name">Painting: Explain Yourself</div>
+            <input type="number" id="val-explain" placeholder="(Average Price: $114,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="explain" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <!-- Right Side Cards -->
+        <div class="loot-card" id="row-canis">
+            <div class="item-name">Painting: Canis Hominem</div>
+            <input type="number" id="val-canis" placeholder="(Average Price: $113,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="canis" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-see">
+            <div class="item-name">Painting: Do You See Me?</div>
+            <input type="number" id="val-see" placeholder="(Average Price: $110,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="see" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-orange">
+            <div class="item-name">Painting: Orange Crush</div>
+            <input type="number" id="val-orange" placeholder="(Average Price: $112,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="orange" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-duchessa">
+            <div class="item-name">Painting: La Duchessa</div>
+            <input type="number" id="val-duchessa" placeholder="(Average Price: $114,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="duchessa" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-chief">
+            <div class="item-name">Painting: The Chief</div>
+            <input type="number" id="val-chief" placeholder="(Average Price: $110,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="chief" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-coquardrings">
+            <div class="item-name">Coquard Rings (Outside)</div>
+            <input type="number" id="val-coquardrings" placeholder="(Average Price: $30,500)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="coquardrings" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-antiquerings">
+            <div class="item-name">Antique Rings (Security)</div>
+            <input type="number" id="val-antiquerings" placeholder="(Average Price: $33,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="antiquerings" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-pharaonic">
+            <div class="item-name">Pharaonic Bands (Far)</div>
+            <input type="number" id="val-pharaonic" placeholder="(Average Price: $31,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pharaonic" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-artdecorings">
+            <div class="item-name">Art Deco Rings (Left)</div>
+            <input type="number" id="val-artdecorings" placeholder="(Average Price: $33,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="artdecorings" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        
+        <!-- Antique Bands dropped perfectly parallel underneath Art Deco Rings case inside right column stack -->
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-antiquebands">
+            <div class="item-name">Antique Bands (Right)</div>
+            <input type="number" id="val-antiquebands" placeholder="(Average Price: $32,500)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="antiquebands" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Standard-sized card centers beautifully at the bottom of the section -->
+    <div class="centered-card-wrapper">
+        <div class="loot-card" id="row-fertility" style="width: 100%; max-width: 510px;">
+            <div class="item-name">Middle Floor Fertility Statue (Near Stairs)</div>
+            <input type="number" id="val-fertility" placeholder="(Average Price: $55,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="fertility" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+    </div>
+    <h2>4. Downstairs Level (Elevator Tower Area)</h2>
+    <div class="card-grid-3">
+        <!-- Re-engineered clean parallel three-column room alignment aspect grid -->
+        <div class="loot-card" id="row-skull">
+            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">LEFT ENCLOSURE</div>
+            <div class="item-name">Pedestal: Memento non Mori Skull</div>
+            <input type="number" id="val-skull" placeholder="(Average Price: $88,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="skull" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-downegg">
+            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">MIDDLE ENCLOSURE</div>
+            <div class="item-name">Downstairs Decorative Egg</div>
+            <input type="number" id="val-downegg" placeholder="(Average Price: $58,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="downegg" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-hoops">
+            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">RIGHT ENCLOSURE</div>
+            <div class="item-name">Byzantine Hoops</div>
+            <input type="number" id="val-hoops" placeholder="(Average Price: $33,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="hoops" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+    </div>
+    <h2>5. Upstairs Level Floor Assets</h2>
+    <div class="card-grid">
+        <div class="col-header">Back Wing (Paintings)</div>
+        <div class="col-header">Front Wing (Display Cases)</div>
+
+        <!-- Flipped layout: Back Wing Paintings on Left | Front Wing Cases on Right -->
+        <div class="loot-card" id="row-cooked">
+            <div class="item-name">Painting: Cooked</div>
+            <input type="number" id="val-cooked" placeholder="(Average Price: $117,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="cooked" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-coquardbracelets">
+            <div class="item-name">Coquard Bracelets</div>
+            <input type="number" id="val-coquardbracelets" placeholder="(Average Price: $31,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="coquardbracelets" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-sawed">
+            <div class="item-name">Painting: Sawed Off</div>
+            <input type="number" id="val-sawed" placeholder="(Average Price: $112,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="sawed" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-pedleft">
+            <div class="item-name">Pedestal: Horse Statue (Left Case)</div>
+            <input type="number" id="val-pedleft" placeholder="(Average Price: $89,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pedleft" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+
+        <!-- Case layout reordered down walkthrough track: Bracelets -> Horse -> Carcanets -> Egg -->
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-pedright">
+            <div class="item-name">Pedestal: Carcanets (Right Case)</div>
+            <input type="number" id="val-pedright" placeholder="(Average Price: $90,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pedright" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-egg">
+            <div class="item-name">Upstairs Decorative Egg</div>
+            <input type="number" id="val-egg" placeholder="(Average Price: $57,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="egg" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+    </div>
+    <h2>6. Multiplayer Crew Keycard Room Assets</h2>
+    <div class="note" style="color:#ff3b30;">Open for data collection by default while scouting. Validated dynamically based on active capacities chosen below.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Column Room Assets</div>
+        <div class="col-header">Right Column Room Assets</div>
+
+        <div class="loot-card" id="row-circleback">
+            <div class="item-name">Painting: Great Circle Back <span class="lock-badge" id="badge-circleback" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <input type="number" id="val-circleback" placeholder="(Average Price: $154,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circleback" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-blueprints">
+            <div class="item-name">Painting: Don't Forgo Blueprints <span class="lock-badge" id="badge-blueprints" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <input type="number" id="val-blueprints" placeholder="(Average Price: $152,500)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="blueprints" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-algernon">
+            <div class="item-name">Pedestal: Venus D'Algernon <span class="lock-badge" id="badge-algernon" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <input type="number" id="val-algernon" placeholder="(Average Price: $117,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="algernon" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-crewfertility">
+            <div class="item-name">Fertility Statue <span class="lock-badge" id="badge-crewfertility" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <input type="number" id="val-crewfertility" placeholder="(Average Price: $84,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="crewfertility" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-circlets">
+            <div class="item-name">Art Deco Circlets <span class="lock-badge" id="badge-circlets" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <input type="number" id="val-circlets" placeholder="(Average Price: $46,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circlets" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-gemstone">
+            <div class="item-name">Pedestal: Gemstone <span class="lock-badge" id="badge-gemstone" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <input type="number" id="val-gemstone" placeholder="(Average Price: $117,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="gemstone" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        
+        <!-- Realigned Meteorite Fragments cleanly into the single right column stack underneath Gemstone -->
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-meteorite">
+            <div class="item-name">Meteorite Fragments <span class="lock-badge" id="badge-meteorite" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <input type="number" id="val-meteorite" placeholder="(Average Price: $87,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="meteorite" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>7. Mission Adjustments & Milestone Payouts</h2>
+    <div style="background-color:#1a1a26;padding:15px;border-radius:8px;display:flex;flex-direction:column;gap:10px;margin-bottom:15px;border:1px solid #2d2d3f;">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-hard" checked style="width:16px;height:16px;margin:0;"> Hard Mode Active (+10% on bag items)</label>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-special" style="width:16px;height:16px;margin:0;"> [BONUS] Prioritize & Complete Buyer's Request Manifest (+$50,000)</label>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-elite" style="width:16px;height:16px;margin:0;"> Elite Challenge Completed (+$150,000 Flat)</label>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#ffaa00;font-weight:bold;font-size:13px;text-align:left;"><input type="checkbox" id="chk-autobox" style="width:16px;height:16px;margin:0;"> Fill remaining space with Lock Boxes ($7,500 per 5% capacity slot)</label>
+    </div>
+
+    <div style="background-color:#111116; padding:12px; border-radius:6px; border:1px solid #363654; margin-bottom:10px; display:flex; flex-direction:column; gap:6px; text-align:center;">
+        <label for="crew-size" style="color:#00e1ff; font-weight:bold; font-size:13px;">CHOOSE ACTIVE TEAM CAPACITY FOR MATRIX SPLIT:</label>
+        <select id="crew-size" style="font-weight:bold; border-color:#00ff88;" onchange="updateGoldManifestTracker()">
+            <option value="1">Solo Run (100% Bag Capacity)</option>
+            <option value="2">2 Players (200% Bag Capacity)</option>
+            <option value="3">3 Players (300% Bag Capacity)</option>
+            <option value="4">4 Players (400% Bag Capacity)</option>
+        </select>
+    </div>
+
+    <button class="btn-calc" onclick="calculateHeistPayout()">Execute Master Math Matrix</button>
+
+    <div id="results-box" style="display:none;background-color:#14221a;padding:20px;border-radius:8px;margin-top:25px;border:1px solid #00ff88;">
+        <h3 style="margin-top:0;color:#00ff88;text-transform:uppercase;font-size:14px;text-align:center;">Tactical Manifest & Optimized Loadout</h3>
+        <p style="font-size:13px;font-weight:bold;color:#aaaaf0;margin-bottom:5px;">Green-Highlighted Targets to Bag:</p>
+        <div id="loot-recommendation" style="color:#fff;line-height:1.5;font-size:13px;"></div>
+        <p style="margin-top:12px;font-size:13px;" id="weight-ledger-row"><strong>Combined Capacity:</strong> <span id="slots-used">0</span>% / <span id="slots-total-cap">100</span>% Bag Space Packed</p>
+        <hr style="border:0;border-top:1px solid #233a2a;margin:12px 0;">
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#bbb;">
+            <div>Base Secondary Value: <span id="res-base" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+            <div id="lockbox-row" style="display:none;color:#ffaa00;">Auto-Drilled Vault Lockboxes: <span id="res-lockbox" style="float:right;font-weight:bold;">$0</span></div>
+            <div>Hard Mode Premium (+10%): <span id="res-hard" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+            <div>Bonus Milestones: <span id="res-bonus" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+            <div>Primary Target Safe Payout: <span id="res-primary" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+        </div>
+        <h2 style="color:#00ff88;margin-top:15px;font-size:20px;border:none;padding:0;text-align:left;">Net Maze Bank Deposit: <span id="res-total" style="float:right;">$0</span></h2>
+    </div>
+</div>
+
+<button class="voice-ptt-btn" id="voice-ptt-btn" onclick="toggleVoiceListening()">🎙️</button>
+<script>
+let timerInterval = null; let timeRemainingSeconds = 17 * 60;
+function toggleTimer() {
+    let btn = document.getElementById('timer-toggle-btn');
+    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; btn.innerText = "Start"; btn.style.backgroundColor = "#00e1ff"; } 
+    else {
+        btn.innerText = "Pause"; btn.style.backgroundColor = "#ff3b30"; btn.style.color = "#fff";
+        timerInterval = setInterval(() => {
+            if (timeRemainingSeconds > 0) {
+                timeRemainingSeconds--;
+                let mins = Math.floor(timeRemainingSeconds / 60).toString().padStart(2, '0');
+                let secs = (timeRemainingSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('time-clock').innerText = mins + ":" + secs;
+            } else { clearInterval(timerInterval); document.getElementById('time-clock').innerText = "00:00 - TIME OUT"; }
+        }, 1000);
+    }
+}
+function resetTimer() {
+    clearInterval(timerInterval); timerInterval = null; timeRemainingSeconds = 17 * 60;
+    document.getElementById('time-clock').innerText = "17:00";
+    let btn = document.getElementById('timer-toggle-btn'); btn.innerText = "Start"; btn.style.backgroundColor = "#00e1ff"; btn.style.color = "#000";
+}
+
+document.querySelectorAll('.gold-chk').forEach(chk => {
+    chk.addEventListener('change', function() {
+        let id = this.getAttribute('data-id');
+        let card = document.getElementById('row-' + id);
+        if(card) { card.classList.toggle('gold-box-row', this.checked); }
+        updateGoldManifestTracker();
+    });
+});
+
+function updateGoldManifestTracker() {
+    let crewSize = parseInt(document.getElementById('crew-size').value);
+    let checkedBoxes = document.querySelectorAll('.gold-chk:checked');
+    let displayList = []; let grandGoldTotal = 0;
+    let multiIds = ['blueprints', 'circleback', 'gemstone', 'meteorite', 'crewfertility', 'circlets', 'algernon'];
+
+    checkedBoxes.forEach(chk => {
+        let id = chk.getAttribute('data-id');
+        let isMulti = multiIds.includes(id);
+        let isBlocked = (crewSize === 1 && isMulti);
+        let displayLabel = id.toUpperCase();
+        
+        if (isBlocked) {
+            displayList.push("<span class='hud-alert-row'>★ " + displayLabel + " [NOT POSSIBLE IN SOLO RUN]</span>");
+        } else {
+            let valInput = document.getElementById('val-' + id);
+            let cashVal = valInput ? (parseFloat(valInput.value) || parseFloat(valInput.placeholder.replace(/[^0-9]/g, '')) || 0) : 0;
+            displayList.push("★ " + displayLabel + " ($" + cashVal.toLocaleString() + ")");
+            grandGoldTotal += cashVal;
+        }
+    });
+    document.getElementById('special-list-container').innerHTML = displayList.length > 0 ? displayList.join('<br>') : "No targets flagged yet.";
+    document.getElementById('special-total-val').innerText = "$" + grandGoldTotal.toLocaleString();
+}
+</script>
+<script>
+function calculateHeistPayout() {
+    document.querySelectorAll('.loot-card').forEach(el => { el.style.border = ""; el.classList.remove('gold-box-row'); el.classList.remove('card-burned'); });
+    document.getElementById('weight-ledger-row').classList.remove('weight-warning');
+    
+    let crewSize = parseInt(document.getElementById('crew-size').value);
+    let maxCapacityPct = crewSize * 100; let availableLootItems = [];
+    let multiIds = ['blueprints', 'circleback', 'gemstone', 'meteorite', 'crewfertility', 'circlets', 'algernon'];
+
+    const numInputs = document.querySelectorAll('.loot-card input[type="number"]');
+    numInputs.forEach(input => {
+        let id = input.id.replace('val-', '');
+        let card = document.getElementById('row-' + id);
+        let val = parseFloat(input.value) || 0;
+        
+        // Auto-burn card if it's completely missing or skipped during setup calculations
+        if (val <= 0 && !input.placeholder.includes('Average Price')) {
+            if (card) card.classList.add('card-burned');
+            return;
+        }
+
+        // Live Solo Conflict State: Physically dims crew cards to 35% on matrix click
+        if (crewSize === 1 && multiIds.includes(id)) {
+            if (card) card.classList.add('card-burned');
+            return;
+        }
+
+        // Fixed Math Weight Matrix: Locks floor paintings explicitly to their true 50% bag weight
+        let paintings = ['explain', 'see', 'duchessa', 'canis', 'orange', 'chief', 'cooked', 'sawed', 'circleback', 'blueprints'];
+        let pct = id.startsWith('v') ? parseFloat(input.getAttribute('data-pct')) : (paintings.includes(id) ? 50 : (id === 'van' ? 25 : (id === 'skull' || id === 'pedright' || id === 'pedleft' || id === 'algernon' || id === 'gemstone' || id === 'meteorite' ? 30 : (id === 'egg' || id === 'downegg' || id === 'fertility' || id === 'crewfertility' ? 20 : 10))));
+        
+        if (val > 0 && pct > 0) availableLootItems.push({ id: id, label: id.toUpperCase(), value: val, weight: pct });
+    });
+
+    let scale = 10; let W = Math.round(maxCapacityPct * scale); let n = availableLootItems.length;
+    let dp = Array(n + 1).fill().map(() => Array(W + 1).fill(0));
+
+    for (let i = 1; i <= n; i++) {
+        let itemWeight = Math.round(availableLootItems[i-1].weight * scale);
+        for (let w = 0; w <= W; w++) {
+            if (itemWeight <= w) { dp[i][w] = Math.max(availableLootItems[i-1].value + dp[i-1][w - itemWeight], dp[i-1][w]); } 
+            else { dp[i][w] = dp[i-1][w]; }
+        }
+    }
+
+    let w = W; let selected = []; let baseTake = 0; let pctUsed = 0;
+    for (let i = n; i > 0; i--) {
+        if (dp[i][w] !== dp[i-1][w]) {
+            selected.push(availableLootItems[i-1]); baseTake += availableLootItems[i-1].value;
+            pctUsed += availableLootItems[i-1].weight; w -= Math.round(availableLootItems[i-1].weight * scale);
+        }
+    }
+
+    let lockBoxCashAdd = 0;
+    if (document.getElementById('chk-autobox').checked && pctUsed < maxCapacityPct) {
+        let boxCount = Math.floor((maxCapacityPct - pctUsed) / 5);
+        lockBoxCashAdd = boxCount * 7500; pctUsed += (boxCount * 5);
+        document.getElementById('lockbox-row').style.display = "block";
+    } else { document.getElementById('lockbox-row').style.display = "none"; }
+
+    let primInput = document.getElementById('val-primary');
+    let primVal = parseFloat(primInput.value) || 300000;
+    let finalPrim = (document.getElementById('opt-primary').value === 'keep') ? 0 : primVal;
+
+    let hardPremium = document.getElementById('chk-hard').checked ? ((baseTake + lockBoxCashAdd) * 0.10) : 0;
+    let bonuses = (document.getElementById('chk-special').checked ? 50000 : 0) + (document.getElementById('chk-elite').checked ? 150000 : 0);
+    let finalTotal = baseTake + lockBoxCashAdd + hardPremium + bonuses + finalPrim;
+
+    let htmlManifest = [];
+    selected.forEach(item => {
+        htmlManifest.push("• " + item.label + " (" + item.weight + "% Capacity)");
+        let card = document.getElementById('row-' + item.id); if(card) { card.style.border = "2px solid #00ff88"; card.style.backgroundColor = "rgba(0, 255, 136, 0.08)"; }
+    });
+    
+    if(document.getElementById('chk-autobox').checked && lockBoxCashAdd > 0) htmlManifest.push("• Auto-Filled Vault Lock Boxes");
+    if (pctUsed >= maxCapacityPct) document.getElementById('weight-ledger-row').classList.add('weight-warning');
+
+    document.getElementById('slots-total-cap').innerText = maxCapacityPct;
+    document.getElementById('slots-used').innerText = pctUsed.toFixed(0);
+    document.getElementById('loot-recommendation').innerHTML = htmlManifest.join('<br>') || "No items selected.";
+    document.getElementById('res-base').innerText = "$" + baseTake.toLocaleString();
+    document.getElementById('res-lockbox').innerText = "$" + lockBoxCashAdd.toLocaleString();
+    document.getElementById('res-hard').innerText = "$" + Math.round(hardPremium).toLocaleString();
+    document.getElementById('res-bonus').innerText = "$" + bonuses.toLocaleString();
+    document.getElementById('res-primary').innerText = "$" + finalPrim.toLocaleString();
+    document.getElementById('res-total').innerText = "$" + Math.round(finalTotal).toLocaleString();
+    document.getElementById('results-box').style.display = 'block';
+}
+</script>
+<script>
+let voiceRecognition = null;
+function toggleVoiceListening() {
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!window.SpeechRecognition) { alert("Speech matching not supported on this host client browser."); return; }
+    let btn = document.getElementById('voice-ptt-btn');
+    if (voiceRecognition) { voiceRecognition.stop(); return; }
+    voiceRecognition = new window.SpeechRecognition();
+    voiceRecognition.continuous = false; voiceRecognition.interimResults = false; voiceRecognition.lang = 'en-US';
+    voiceRecognition.onstart = () => { btn.classList.add('listening'); };
+    voiceRecognition.onend = () => { btn.classList.remove('listening'); voiceRecognition = null; };
+    voiceRecognition.onerror = () => { btn.classList.remove('listening'); voiceRecognition = null; };
+    voiceRecognition.onresult = (event) => {
+        let textCommand = event.results.transcript.toLowerCase();
+        
+        // Laptop Token Safe Guard: Strips whitespace gaps from spoken desktop digits
+        let rawDigits = textCommand.replace(/\s+/g, '').match(/\d+/);
+        let targetVal = 0;
+
+        if (rawDigits) {
+            targetVal = parseInt(rawDigits);
+            if (textCommand.includes('thousand') && targetVal < 1000) targetVal *= 1000;
+            else if (textCommand.includes('grand') || textCommand.includes(' k')) targetVal *= 1000;
+        } else {
+            // Textual conversion backup safety tracker
+            let textNumMap = { 'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':9,'ten':10,'eleven':11,'twelve':12,'thirteen':13,'fourteen':14,'fifteen':15,'sixteen':16,'seventeen':17,'eighteen':18,'nineteen':19,'twenty':20,'thirty':30,'forty':40,'fifty':50,'sixty':60,'seventy':70,'eighty':80,'ninety':90 };
+            let words = textCommand.split(/[\s-]+/);
+            let tempVal = 0;
+            words.forEach(w => {
+                if (textNumMap[w]) { tempVal += textNumMap[w]; }
+                else if (w === 'hundred') { tempVal *= 100; }
+                else if (w === 'thousand' || w === 'grand' || w === 'k') { targetVal += (tempVal * 1000); tempVal = 0; }
+            });
+            targetVal += tempVal;
+        }
+        
+        if (targetVal < 1000 && targetVal > 0) { targetVal *= 1000; }
+        if (targetVal === 0) return;
+
+        let targetId = null;
+        if (textCommand.includes('hunter')) targetId = 'vleftfront';
+        else if (textCommand.includes('friends')) targetId = 'vrightfront';
+        else if (textCommand.includes('swing')) targetId = 'vleftback';
+        else if (textCommand.includes('gouden') || textCommand.includes('hondje') || textCommand.includes('goud')) targetId = 'vrightback';
+        else if (textCommand.includes('explain')) targetId = 'explain';
+        else if (textCommand.includes('see me')) targetId = 'see';
+        else if (textCommand.includes('duchessa')) targetId = 'duchessa';
+        else if (textCommand.includes('canis')) targetId = 'canis';
+        else if (textCommand.includes('orange') || textCommand.includes('crush')) targetId = 'orange';
+        else if (textCommand.includes('chief')) targetId = 'chief';
+        else if (textCommand.includes('skull') || textCommand.includes('memento')) targetId = 'skull';
+        else if (textCommand.includes('downstairs egg')) targetId = 'downegg';
+        else if (textCommand.includes('hoops')) targetId = 'hoops';
+        else if (textCommand.includes('bracelet')) targetId = 'coquardbracelets';
+        else if (textCommand.includes('horse')) targetId = 'pedleft';
+        else if (textCommand.includes('carcanet')) targetId = 'pedright';
+        else if (textCommand.includes('upstairs egg')) targetId = 'egg';
+        else if (textCommand.includes('cooked')) targetId = 'cooked';
+        else if (textCommand.includes('sawed')) targetId = 'sawed';
+        else if (textCommand.includes('van')) targetId = 'van';
+        else if (textCommand.includes('circle back')) targetId = 'circleback';
+        else if (textCommand.includes('blueprint')) targetId = 'blueprints';
+        else if (textCommand.includes('venus') || textCommand.includes('algernon')) targetId = 'algernon';
+        else if (textCommand.includes('crew fertility')) targetId = 'crewfertility';
+        else if (textCommand.includes('circlet')) targetId = 'circlets';
+        else if (textCommand.includes('gemstone')) targetId = 'gemstone';
+        else if (textCommand.includes('meteorite')) targetId = 'meteorite';
+        else if (textCommand.includes('fertility')) targetId = 'fertility';
+
+        if (targetId) {
+            let inputField = document.getElementById('val-' + targetId);
+            if (inputField) {
+                inputField.value = targetVal;
+                let card = document.getElementById('row-' + targetId);
+                if (card) { card.style.borderColor = '#00ff88'; setTimeout(() => { card.style.borderColor = ''; }, 1500); }
+                updateGoldManifestTracker();
+            }
+        }
+    };
+    voiceRecognition.start();
+}
+updateGoldManifestTracker();
+</script>
+</body>
+</html>
