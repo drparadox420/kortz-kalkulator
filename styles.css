@@ -1,0 +1,181 @@
+/* GLOBAL RESETS & THEME */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 140px; /* Clearance for sticky HUD */
+    padding-bottom: 40px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* STICKY TOP HUD: BUYER'S REQUEST */
+#top-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1e1e1e;
+    border-bottom: 3px solid #ffd700;
+    z-index: 1000;
+    padding: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+#special-list-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#special-list-container h3 {
+    color: #ffd700;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+#br-items-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#br-items-list li {
+    background-color: #2a2a2a;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    border: 1px solid #444;
+}
+
+/* STRIKETHROUGH MODE FOR BR ITEMS WHEN NOT OPTIMAL */
+#br-items-list li.br-not-needed {
+    text-decoration: line-through;
+    opacity: 0.5;
+    background-color: #222;
+    border-color: #555;
+}
+
+#br-status-note {
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-top: 6px;
+}
+
+.status-optimal { color: #4caf50; }
+.status-warning { color: #ff5252; }
+
+/* CARD CONTAINER STYLES */
+.card {
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+}
+
+.card h2 {
+    color: #ffffff;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 6px;
+}
+
+.subtitle {
+    font-size: 0.85em;
+    color: #888;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    background-color: #2a2a2a;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+/* EXECUTE BUTTON */
+#btn-execute {
+    width: 100%;
+    padding: 14px;
+    background-color: #ffd700;
+    color: #000;
+    font-weight: bold;
+    font-size: 1em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#btn-execute:hover {
+    background-color: #e6c200;
+}
+
+/* ZONE MANIFEST & REORDER ARROWS */
+.zone-card {
+    background-color: #252525;
+    border: 1px solid #3d3d3d;
+    border-radius: 6px;
+    margin-top: 15px;
+    padding: 12px;
+}
+
+.zone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+}
+
+.zone-title {
+    font-weight: bold;
+    color: #00bcd4;
+    font-size: 0.95em;
+}
+
+.reorder-btn-group {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-arrow {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 3px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+
+.btn-arrow:hover {
+    background-color: #555;
+}
+
+.zone-item-list {
+    list-style-type: square;
+    padding-left: 20px;
+    font-size: 0.9em;
+    color: #ccc;
+}
