@@ -3,102 +3,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quartz Center Heist - Tactical Route Planner</title>
+    <title>Kortz Center Heist Master Matrix HUD v5.0-Alpha</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <!-- STICKY TOP HUD: BUYER'S REQUEST TRACKER -->
-    <header id="top-hud">
-        <div id="special-list-container">
-            <h3>BUYER'S REQUEST TARGETS</h3>
-            <ul id="br-items-list">
-                <li>Canis Hominem Edit (Painting - 50%)</li>
-                <li>Memento non Mori Skull (20%)</li>
-                <li>The Chief (Target Asset)</li>
-            </ul>
-            <div id="br-status-note" class="status-optimal">🟢 READY FOR OPTIMIZATION</div>
+<div class="hud-wrapper">
+    <div class="hud-panel-left">
+        <div>
+            <button class="menu-btn-trigger" onclick="toggleLayoutMenuDeck(event)" aria-label="Toggle Layout Menu">⚙️</button>
+            <div class="menu-dropdown-content" id="layout-dropdown-menu">
+                <button class="mode-btn active" id="btn-layout-desktop" onclick="setLayoutMode('desktop')">🖥️ Desktop Split</button>
+                <button class="mode-btn" id="btn-layout-mobile" onclick="setLayoutMode('mobile')">📱 Mobile Route</button>
+                <button class="mode-btn" style="opacity:0.5; cursor:not-allowed;">🗺️ Map Module</button>
+            </div>
         </div>
-    </header>
+        <div style="flex-grow: 1;">
+            <h3>📋 Buyer's Request</h3>
+            <div id="special-list-container">No targets flagged yet.</div>
+            <div class="special-total-row">Total: <span id="special-total-val">$0</span></div>
+        </div>
+    </div>
+    <div class="hud-panel-right">
+        <h3>⏱️ Speedrun Timer</h3>
+        <div class="timer-display" id="time-clock">17:00</div>
+        <button class="timer-btn" onclick="toggleTimer()" id="timer-toggle-btn">Start</button>
+        <button class="timer-btn" onclick="resetTimer()">Reset</button>
+        <div class="timer-note">Auto-Save System Active</div>
+    </div>
+</div>
 
-    <main class="container">
+<div class="container">
+    <h1>Kortz Center Heist Master Matrix <span class="version-badge">v5.0-Alpha</span></h1>
+    <div class="subtitle">Custom Tactical Route Planner & Loot Bag Calculator</div>
 
-        <!-- BAG CAPACITY DISPLAY & STATUS -->
-        <section class="card capacity-card">
-            <h2>Loot Capacity Tracker</h2>
-            <div class="capacity-bar-container">
-                <div id="capacity-fill" style="width: 0%;"></div>
-            </div>
-            <p id="capacity-text">Total Bag Usage: <strong>0% / 100%</strong></p>
-        </section>
-
-        <!-- VAN SELECTOR CONTROL -->
-        <section class="card van-card">
-            <h2>Loading Bay Van Status</h2>
-            <select id="state-van" onchange="calculateLootTotal()">
-                <option value="none">Not Present (0% Capacity)</option>
-                <option value="baseline" selected>Baseline Van Cargo (30% Space)</option>
-                <option value="manual">Manual Override</option>
+    <!-- Centered Primary Target Card -->
+    <div class="centered-card-wrapper">
+        <div class="primary-target-card">
+            <label for="val-primary">($) Primary Target Safe Yield ($)</label>
+            <input type="number" id="val-primary" oninput="saveCurrentState()" placeholder="(Average Price: $300,000)" tabindex="1">
+            <label for="opt-primary" style="margin-top:10px;">Sell / Keep Option</label>
+            <select id="opt-primary" onchange="saveCurrentState()" style="text-align-last: center;">
+                <option value="sell">Sell Safe Target</option>
+                <option value="keep">Keep Safe Target</option>
             </select>
-        </section>
+        </div>
+    </div>
 
-        <!-- PRE-MISSION ROUTE STRATEGY -->
-        <section class="card route-card">
-            <h2>Pre-Mission Strategy & Entry Point</h2>
-            <select id="entry-point">
-                <option value="stealth-roof">Roof Entrance (Stealth Sweep)</option>
-                <option value="loading-bay">Loading Bay Direct (Van Rush)</option>
-                <option value="front-doors">Main Entrance Loop</option>
+    <!-- 1. Middle Level Main Entrance Sweep -->
+    <div class="card-grid">
+        <div class="section-banner">1. Middle Level: Main Entrance Sweep Block</div>
+        <div class="col-header">Left Side Layout Stack</div>
+        <div class="col-header">Right Side Layout Stack</div>
+
+        <div class="loot-card" id="row-canis">
+            <div class="item-name">1. Painting: Canis Hominem Edit</div>
+            <input type="number" id="val-canis" oninput="saveCurrentState()" placeholder="(Average Price: $113,000)" tabindex="2">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-canis" data-id="canis" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-orange">
+            <div class="item-name">2. Painting: Orange Crush</div>
+            <input type="number" id="val-orange" oninput="saveCurrentState()" placeholder="(Average Price: $112,000)" tabindex="3">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-orange" data-id="orange" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-pharaonic">
+            <div class="item-name">3. Pharaonic Bands (Far)</div>
+            <input type="number" id="val-pharaonic" oninput="saveCurrentState()" placeholder="(Average Price: $31,000)" tabindex="4">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-pharaonic" data-id="pharaonic" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-explain">
+            <div class="item-name">4. Painting: Explain Yourself</div>
+            <input type="number" id="val-explain" oninput="saveCurrentState()" placeholder="(Average Price: $114,000)" tabindex="5">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-explain" data-id="explain" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-duchesse">
+            <div class="item-name">5. Painting: La Duchesse</div>
+            <input type="number" id="val-duchesse" oninput="saveCurrentState()" placeholder="(Average Price: $114,000)" tabindex="6">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-duchesse" data-id="duchesse" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="section-banner">Middle Level: Windows & Staircase Core Row</div>
+        <div class="col-header">Left Side Layout Stack</div>
+        <div class="col-header">Right Side Layout Stack</div>
+
+        <div class="loot-card" id="row-see">
+            <div class="item-name">6. Painting: Do You See Me?</div>
+            <input type="number" id="val-see" oninput="saveCurrentState()" placeholder="(Average Price: $110,000)" tabindex="7">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-see" data-id="see" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-coquardrings">
+            <div class="item-name">7. Coquard Rings (Outside Wall)</div>
+            <input type="number" id="val-coquardrings" oninput="saveCurrentState()" placeholder="(Average Price: $30,500)" tabindex="8">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-coquardrings" data-id="coquardrings" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
+        <div class="loot-card" id="row-antiquebands">
+            <div class="item-name">9. Antique Bands (Right Case)</div>
+            <input type="number" id="val-antiquebands" oninput="saveCurrentState()" placeholder="(Average Price: $32,500)" tabindex="10">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-antiquebands" data-id="antiquebands" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-artdecorings">
+            <div class="item-name">10. Art Deco Rings (Left Case)</div>
+            <input type="number" id="val-artdecorings" oninput="saveCurrentState()" placeholder="(Average Price: $33,000)" tabindex="11">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-artdecorings" data-id="artdecorings" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-antiquerings">
+            <div class="item-name">11. Antique Rings (Security Door)</div>
+            <input type="number" id="val-antiquerings" oninput="saveCurrentState()" placeholder="(Average Price: $33,000)" tabindex="12">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-antiquerings" data-id="antiquerings" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-chief">
+            <div class="item-name">12. Painting: The Chief</div>
+            <input type="number" id="val-chief" oninput="saveCurrentState()" placeholder="(Average Price: $110,000)" tabindex="13">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-chief" data-id="chief" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 8: Centered Fertility Statue -->
+    <div class="centered-card-wrapper">
+        <div class="loot-card" id="row-fertility" style="width: 100%; max-width: 510px;">
+            <div class="item-name">8. Middle Floor Fertility Statue</div>
+            <input type="number" id="val-fertility" oninput="saveCurrentState()" placeholder="(Average Price: $55,000)" tabindex="9">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-fertility" data-id="fertility" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Vault Room Security Monitor Loops -->
+    <h2>2. Vault Room Security Monitor Loops</h2>
+    <div class="note">Perspective Matrix: Direct surveillance scanner layout feeds.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Side Vault Matrix</div>
+        <div class="col-header">Right Side Vault Matrix</div>
+
+        <div class="loot-card" id="row-vleftback">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">BACK ROW FEED</div>
+            <div class="item-name">13. Painting: Swing Set Study Number LXiX</div>
+            <input type="number" id="val-vleftback" oninput="saveCurrentState()" placeholder="(Average Price: $85,000)" tabindex="14">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vleftback" data-id="vleftback" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-vleftfront">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">FRONT ROW FEED</div>
+            <div class="item-name">14. Painting: The Hunter Becomes the Hunted</div>
+            <input type="number" id="val-vleftfront" oninput="saveCurrentState()" placeholder="(Average Price: $82,000)" tabindex="15">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vleftfront" data-id="vleftfront" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-vrightfront">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">FRONT ROW FEED</div>
+            <div class="item-name">15. Painting: With Friends Like These</div>
+            <input type="number" id="val-vrightfront" oninput="saveCurrentState()" placeholder="(Average Price: $82,000)" tabindex="16">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vrightfront" data-id="vrightfront" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-vrightback">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">BACK ROW FEED</div>
+            <div class="item-name">16. Painting: Het Gouden Hondje</div>
+            <input type="number" id="val-vrightback" oninput="saveCurrentState()" placeholder="(Average Price: $81,000)" tabindex="17">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vrightback" data-id="vrightback" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Tactical Loading Area / Van Spawn -->
+    <h2>3. Tactical Loading Area / Van Spawn</h2>
+    <div class="note" style="color:var(--gold); font-weight:bold; margin-bottom:10px;">⚙️ Operational Note: The loading bay van yield cannot be scoped via security cameras. To secure its exact live pricing matrix value, you must initiate the finale, loot the cargo asset, and then intentionally fail or restart the run.</div>
+
+    <div class="loot-card priority-high" id="row-van" style="margin-bottom:25px;">
+        <div class="priority-tag">Highest Priority Target</div>
+        <div class="item-name">17. Loading Bay Van Cargo Asset</div>
+        
+        <div style="display:flex; flex-direction:column; gap:6px; margin: 4px 0;">
+            <select id="state-van" onchange="handleVanDropdownStateChange()" style="border-color:var(--gold); font-weight:bold;">
+                <option value="missing">❌ Asset Not Present On This Run</option>
+                <option value="average">⚖️ Use Baseline Average ($125,000)</option>
+                <option value="override">✏️ Manual Override (Custom Price Entry)</option>
             </select>
-        </section>
+            <input type="number" id="val-van" oninput="saveCurrentState()" placeholder="($125,000 Locked to Average)" disabled style="opacity:0.5; border-color:#222;">
+        </div>
 
-        <!-- LOOT SELECTION MANIFEST -->
-        <section class="card loot-selection-card">
-            <h2>Loot Selection Checklist</h2>
-            <p class="subtitle">Check off items collected to calculate capacity and optimal route order.</p>
+        <div class="card-action-row">
+            <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-van" data-id="van" onchange="saveCurrentState()"></span>
+            <span style="color:var(--neon-blue); font-weight:bold;">Loot Bag Capacity Consumption: 30%</span>
+        </div>
+    </div>
 
-            <div class="loot-group">
-                <h3>Paintings (50% Space Each)</h3>
-                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="Canis Hominem Edit" onchange="calculateLootTotal()"> Canis Hominem Edit</label><br>
-                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="The Hunter Becomes the Hunted" onchange="calculateLootTotal()"> The Hunter Becomes the Hunted</label><br>
-                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="Het Gouden Hondje" onchange="calculateLootTotal()"> Het Gouden Hondje</label><br>
-                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="Don't Forgo Blueprints" onchange="calculateLootTotal()"> Don't Forgo Blueprints</label>
+    <!-- 4. Downstairs Level -->
+    <h2>4. Downstairs Level (Elevator Tower Row)</h2>
+    <div class="note">Real-World Spatial Context: Three side-by-side enclosures stacked against partition boundary wall.</div>
+    
+    <div class="card-grid-3">
+        <div class="loot-card" id="row-skull">
+            <div style="color:var(--neon-blue); font-size:10px; font-weight:bold;">LEFT ENCLOSURE</div>
+            <div class="item-name">18. Pedestal: Memento non Mori Skull</div>
+            <input type="number" id="val-skull" oninput="saveCurrentState()" placeholder="(Average Price: $88,000)" tabindex="18">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-skull" data-id="skull" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
             </div>
+        </div>
 
-            <div class="loot-group">
-                <h3>Medium Display Items (20% Space Each)</h3>
-                <label><input type="checkbox" class="loot-item" data-weight="20" data-name="Memento non Mori Skull" onchange="calculateLootTotal()"> Memento non Mori Skull</label><br>
-                <label><input type="checkbox" class="loot-item" data-weight="20" data-name="Middle Floor Fertility Statue" onchange="calculateLootTotal()"> Middle Floor Fertility Statue</label><br>
-                <label><input type="checkbox" class="loot-item" data-weight="20" data-name="Upstairs Decorative Egg" onchange="calculateLootTotal()"> Upstairs Decorative Egg</label>
+        <div class="loot-card" id="row-downegg">
+            <div style="color:var(--neon-blue); font-size:10px; font-weight:bold;">MIDDLE ENCLOSURE</div>
+            <div class="item-name">19. Downstairs Decorative Egg</div>
+            <input type="number" id="val-downegg" oninput="saveCurrentState()" placeholder="(Average Price: $58,000)" tabindex="19">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-downegg" data-id="downegg" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
             </div>
+        </div>
 
-            <div class="loot-group">
-                <h3>Jewelry & Minor Collectibles (10% Space Each)</h3>
-                <label><input type="checkbox" class="loot-item" data-weight="10" data-name="Byzantine Hoops" onchange="calculateLootTotal()"> Byzantine Hoops</label><br>
-                <label><input type="checkbox" class="loot-item" data-weight="10" data-name="Pedestal: Carcanets (Necklace)" onchange="calculateLootTotal()"> Pedestal: Carcanets (Necklace)</label>
+        <div class="loot-card" id="row-hoops">
+            <div style="color:var(--neon-blue); font-size:10px; font-weight:bold;">RIGHT ENCLOSURE</div>
+            <div class="item-name">20. Byzantine Hoops</div>
+            <input type="number" id="val-hoops" oninput="saveCurrentState()" placeholder="(Average Price: $33,000)" tabindex="20">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-hoops" data-id="hoops" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
             </div>
+        </div>
+    </div>
 
-            <div class="loot-group">
-                <h3>Lockboxes & Small Items (5% Space Each)</h3>
-                <label><input type="checkbox" class="loot-item" data-weight="5" data-name="Vault Lockbox Alpha" onchange="calculateLootTotal()"> Vault Lockbox Alpha</label><br>
-                <label><input type="checkbox" class="loot-item" data-weight="5" data-name="Vault Lockbox Beta" onchange="calculateLootTotal()"> Vault Lockbox Beta</label>
+    <!-- 5. Upstairs Level Floor Assets -->
+    <h2>5. Upstairs Level Floor Assets</h2>
+    <div class="note">Flipped Navigation Context: Intercepts focus pathing from doorway threshold wide scan coordinates.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Back Wing (Paintings Track)</div>
+        <div class="col-header">Front Wing (Display Cases Loop)</div>
+
+        <div class="loot-card" id="row-egg">
+            <div class="item-name">21. Upstairs Decorative Egg</div>
+            <input type="number" id="val-egg" oninput="saveCurrentState()" placeholder="(Average Price: $57,000)" tabindex="21">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-egg" data-id="egg" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
             </div>
-        </section>
+        </div>
 
-        <!-- RESULTS MANIFEST SECTION -->
-        <section id="results-manifest" class="card manifest-card">
-            <h2>TACTICAL RESULTS MANIFEST</h2>
-            <button id="btn-execute" onclick="executeMasterMathMatrix()">⚡ EXECUTE MASTER MATH MATRIX</button>
-
-            <div id="advisory-engine-output" style="margin-top: 15px;"></div>
-
-            <!-- ZONE-BY-ZONE MANIFEST CONTAINER -->
-            <div id="zone-manifest-container">
-                <!-- Zone cards with ▲/▼ reorder controls will render here -->
+        <div class="loot-card" id="row-pedright">
+            <div class="item-name">22. Pedestal: Carcanets (Necklace)</div>
+            <input type="number" id="val-pedright" oninput="saveCurrentState()" placeholder="(Average Price: $90,000)" tabindex="22">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-pedright" data-id="pedright" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <script src="./script.js"></script>
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
+        <div class="loot-card" id="row-pedleft">
+            <div class="item-name">23. Pedestal: Horse Statue</div>
+            <input type="number" id="val-pedleft" oninput="saveCurrentState()" placeholder="(Average Price: $89,000)" tabindex="23">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-pedleft" data-id="pedleft" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
+            </div>
+        </div>
+
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
+        <div class="loot-card" id="row-coquardbracelets">
+            <div class="item-name">24. Coquard Bracelets</div>
+            <input type="number" id="val-coquardbracelets" oninput="saveCurrentState()" placeholder="(Average Price: $31,000)" tabindex="24">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-coquardbracelets" data-id="coquardbracelets" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-sodoff">
+            <div class="item-name">25. Painting: Sod Off</div>
+            <input type="number" id="val-sodoff" oninput="saveCurrentState()" placeholder="(Average Price: $112,000)" tabindex="25">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-sodoff" data-id="sodoff" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-cooked">
+            <div class="item-name">26. Painting: Cooked</div>
+            <input type="number" id="val-cooked" oninput="saveCurrentState()" placeholder="(Average Price: $117,000)" tabindex="26">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-cooked" data-id="cooked" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Multiplayer Crew Keycard Vault Room Inventory -->
+    <h2>6. Multiplayer Crew Keycard Vault Room Inventory</h2>
+    <div class="note" style="color:var(--alert-red); font-weight:bold;">Operational Lockout: System validates capacity constraints instantly. Cards dim automatically inside calculations block during active solo scoping operations.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Crew Room Tracking Matrix</div>
+        <div class="col-header">Right Crew Room Tracking Matrix</div>
+
+        <div class="loot-card" id="row-crewfertility">
+            <div class="item-name">27. Fertility Statue (Crew Vault)</div>
+            <input type="number" id="val-crewfertility" oninput="saveCurrentState()" placeholder="(Average Price: $84,000)" tabindex="27">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-crewfertility" data-id="crewfertility" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-blueprints">
+            <div class="item-name">28. Painting: Don't Forgo Blueprints</div>
+            <input type="number" id="val-blueprints" oninput="saveCurrentState()" placeholder="(Average Price: $152,500)" tabindex="28">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-blueprints" data-id="blueprints" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-circleback">
+            <div class="item-name">29. Painting: Great Circle Back</div>
+            <input type="number" id="val-circleback" oninput="saveCurrentState()" placeholder="(Average Price: $154,000)" tabindex="29">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-circleback" data-id="circleback" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-gemstone">
+            <div class="item-name">30. Pedestal: Gemstone</div>
+            <input type="number" id="val-gemstone" oninput="saveCurrentState()" placeholder="(Average Price: $117,000)" tabindex="30">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-gemstone" data-id="gemstone" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
+            </div>
+        </div>
+
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
+        <div class="loot-card" id="row-meteorite">
+            <div class="item-name">31. Meteorite Fragments</div>
+            <input type="number" id="val-meteorite" oninput="saveCurrentState()" placeholder="(Average Price: $87,000)" tabindex="31">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-meteorite" data-id="meteorite" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-algernon">
+            <div class="item-name">32. Pedestal: Venus D'Algernon</div>
+            <input type="number" id="val-algernon" oninput="saveCurrentState()" placeholder="(Average Price: $117,000)" tabindex="32">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-algernon" data-id="algernon" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-circlets">
+            <div class="item-name">33. Art Deco Circlets</div>
+            <input type="number" id="val-circlets" oninput="saveCurrentState()" placeholder="(Average Price: $46,000)" tabindex="33">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-circlets" data-id="circlets" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Mission Adjustments & Logistical Modifiers -->
+    <h2>7. Mission Adjustments & Logistical Modifiers</h2>
+    <div style="background-color:#1a1a26; padding:15px; border-radius:8px; display:flex; flex-direction:column; gap:10px; border:1px solid #2d2d3f; margin-bottom:15px;">
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#fff; font-size:13px; text-align:left;"><input type="checkbox" id="chk-hard" checked onchange="saveCurrentState()" style="width:16px; height:16px; margin:0;"> Hard Mode Active (+10% Premium Yield on Bag Items)</label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#fff; font-size:13px; text-align:left;"><input type="checkbox" id="chk-elite" onchange="saveCurrentState()" style="width:16px; height:16px; margin:0;"> Elite Challenge Completed (+$150,000 Flat Bounty Award)</label>
+        <label for="crew-size" style="color:var(--neon-blue); font-weight:bold; font-size:13px;">ACTIVE TEAM DUFFEL CAPACITY SPLIT CONFIGURATION:</label>
+        <select id="crew-size" style="font-weight:bold; border-color:var(--neon-green);" onchange="handleCrewLockoutUI()">
+            <option value="1">Solo Run (100% Bag Capacity Matrix)</option>
+            <option value="2">2 Players (200% Bag Capacity Matrix)</option>
+            <option value="3">3 Players (300% Bag Capacity Matrix)</option>
+            <option value="4">4 Players (400% Bag Capacity Matrix)</option>
+        </select>
+    </div>
+
+    <button class="btn-calc" onclick="executeLootOptimization()">Execute Master Math Matrix</button>
+    <div class="btn-control-row">
+        <button class="btn-sec" onclick="triggerEndSessionSequence()">Next Scoping Run</button>
+        <button class="btn-sec" style="border-color:var(--alert-red); color:var(--alert-red);" onclick="factoryResetAnalytics()">Factory Reset Defaults</button>
+    </div>
+
+    <!-- Results Display Output Box -->
+    <div id="results-box">
+        <h3 style="margin-top:0; color:var(--neon-green); text-transform:uppercase; font-size:14px; text-align:center;">Optimized Loot Assignment Manifest</h3>
+        <p style="font-size:13px; font-weight:bold; color:#aaaaf0; margin-bottom:5px;">Target Assets Highlighted to Pack:</p>
+        <div id="loot-recommendation" style="color:#fff; line-height:1.5; font-size:13px; font-family:monospace;"></div>
+        <p style="margin-top:12px; font-size:13px;" id="weight-ledger-row"><strong>Combined Volume Used:</strong> <span id="slots-used">0</span>% / <span id="slots-total-cap">100</span>% Space Allocation Packed</p>
+        <hr style="border:0; border-top:1px solid #233a2a; margin:12px 0;">
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:13px; color:#bbb; font-family:monospace;">
+            <div>Secondary Loot Yield: <span id="res-base" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
+            <div>Hard Mode Premium (+10%): <span id="res-hard" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
+            <div>Bounty Milestone Adjustments: <span id="res-bonus" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
+            <div>Primary Safe Vault Core Take: <span id="res-primary" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
+        </div>
+        <h2 style="color:var(--neon-green); margin-top:15px; font-size:20px; border:none; padding:0; text-align:left;">Net Deposit Manifest: <span id="res-total" style="float:right;">$0</span></h2>
+    </div>
+</div>
+
+<!-- End Session Confirmation Modal Overlay -->
+<div class="modal-overlay" id="end-session-modal">
+    <div class="modal-box">
+        <h3>End Active Scoping Session</h3>
+        <p style="font-size: 13px; color: #bbb; line-height: 1.5;">Do you want to log and commit this run's data parameters into your local running historical database statistics average?</p>
+        <div class="modal-btn-group">
+            <button class="modal-btn modal-btn-confirm" onclick="closeSessionGate(true)">Yes, Commit Run</button>
+            <button class="modal-btn modal-btn-abort" onclick="closeSessionGate(false)">No, Discard / Clear</button>
+        </div>
+    </div>
+</div>
+
+<button class="voice-ptt-btn" id="voice-ptt-btn" style="display:none;">🎙️</button>
+
+<script src="script.js"></script>
 </body>
 </html>
