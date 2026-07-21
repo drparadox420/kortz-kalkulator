@@ -3,700 +3,885 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kortz Center Heist Master Matrix</title>
+    <title>Kortz Center Heist Master Matrix HUD v5.0-Alpha</title>
     <style>
-        /* Pure Code Abstract Geometric Silhouette Mansion Background - Visibility Turned Up */
+        :root {
+            --neon-green: #00ff88;
+            --neon-blue: #00e1ff;
+            --neon-purple: #b055ff;
+            --alert-red: #ff3b30;
+            --gold: #ffaa00;
+            --bg-dark: #0c0c12;
+            --panel-bg: rgba(18, 18, 26, 0.95);
+            --card-bg: #0b0b10;
+            --border-color: #1f1f2e;
+        }
         body { 
-            font-family: 'Segoe UI', sans-serif; 
-            margin: 0; padding: 20px; background-color: #0c0c12; color: #e2e2e9; 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            margin: 0; padding: 10px; background-color: var(--bg-dark); color: #e2e2e9; 
             background-image: 
                 radial-gradient(rgba(214, 51, 108, 0.12) 20%, transparent 25%),
-                radial-gradient(rgba(214, 51, 108, 0.12) 20%, transparent 25%),
-                linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
-            background-size: 80px 40px, 80px 40px, 40px 40px, 40px 40px;
-            background-position: 0 0, 40px 20px, 0 0, 0 0; background-attachment: fixed;
+                linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px);
+            background-size: 80px 40px, 40px 40px; background-attachment: fixed;
         }
-        .container { max-width: 1050px; margin: 0 auto; background-color: rgba(18, 18, 26, 0.95); padding: 30px; border-radius: 12px; border: 1px solid #1f1f2e; box-sizing: border-box; backdrop-filter: blur(4px); position: relative; }
-        h1, h2, .col-header { text-align: center; text-transform: uppercase; letter-spacing: 1px; }
-        h1 { color: #00ff88; font-size: 38px; margin-bottom: 5px; font-weight: 800; text-shadow: 0 0 12px rgba(0, 255, 136, 0.2); } 
-        h2 { color: #00e1ff; border-bottom: 2px solid #222233; padding-bottom: 6px; margin-top: 35px; font-size: 16px; text-decoration: underline; text-underline-offset: 4px; } 
-        .subtitle { text-align: center; color: #b055ff; margin-bottom: 35px; font-size: 30px; font-weight: bold; letter-spacing: 0.5px; }
-        .note { text-align: center; font-size: 12px; color: #ffaa00; margin-top: -8px; margin-bottom: 15px; font-style: italic; }
-        /* Sticky Heads-Up Overlay Layout Rules */
-        .hud-wrapper { display: flex; justify-content: space-between; position: -webkit-sticky; position: sticky; top: 10px; z-index: 1000; pointer-events: none; width: 100%; margin-bottom: -100px; }
-        .hud-left { width: 180px; background-color: rgba(26, 21, 10, 0.95); border: 1px solid #ffaa00; border-radius: 8px; padding: 12px; box-sizing: border-box; pointer-events: auto; backdrop-filter: blur(4px); }
-        .hud-left h3 { margin: 0 0 8px 0; color: #ffaa00; font-size: 12px; text-transform: uppercase; text-align: center; border-bottom: 1px solid #443311; padding-bottom: 4px; }
-        #special-list-container { font-size: 11px; color: #ffd480; line-height: 1.4; text-align: center; }
-        .special-total-row { text-align: center; margin-top: 8px; padding-top: 4px; border-top: 1px dashed #554411; font-weight: bold; color: #ffaa00; font-size: 12px; }
-        .hud-alert-row { color: #ff3b30 !important; font-weight: bold; text-decoration: line-through; opacity: 0.5; }
+        .container { max-width: 1050px; margin: 0 auto; background-color: var(--panel-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); box-sizing: border-box; backdrop-filter: blur(4px); position: relative; }
+        h1 { color: var(--neon-green); font-size: 28px; text-align: center; text-transform: uppercase; font-weight: 800; margin: 5px 0; text-shadow: 0 0 12px rgba(0, 255, 136, 0.2); }
+        .version-badge { background: var(--neon-blue); color: #000; font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 4px; vertical-align: middle; display: inline-block; margin-left: 8px; }
+        .subtitle { text-align: center; color: var(--neon-purple); margin-bottom: 20px; font-size: 18px; font-weight: bold; }
+        /* Split-Row Sticky Viewport Layout System */
+        .hud-wrapper { display: flex; justify-content: space-between; position: -webkit-sticky; position: sticky; top: 10px; z-index: 2000; pointer-events: none; width: 100%; margin-bottom: -75px; gap: 10px; }
+        .hud-panel-left { display: flex; align-items: flex-start; gap: 6px; width: 50%; max-width: 480px; background-color: rgba(26, 21, 10, 0.96); border: 1px solid var(--gold); border-radius: 8px; padding: 10px; box-sizing: border-box; pointer-events: auto; backdrop-filter: blur(4px); }
+        .hud-panel-right { width: 50%; max-width: 480px; background-color: rgba(11, 21, 26, 0.96); border: 1px solid var(--neon-blue); border-radius: 8px; padding: 10px; box-sizing: border-box; pointer-events: auto; backdrop-filter: blur(4px); text-align: center; }
+        
+        .hud-panel-left h3 { margin: 0 0 6px 0; color: var(--gold); font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #443311; padding-bottom: 4px; text-align: center; width: 100%; }
+        .hud-panel-right h3 { margin: 0 0 6px 0; color: var(--neon-blue); font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #113344; padding-bottom: 4px; }
+        
+        #special-list-container { font-size: 11px; color: #ffd480; line-height: 1.4; text-align: center; width: 100%; }
+        .special-total-row { text-align: center; margin-top: 6px; padding-top: 4px; border-top: 1px dashed #554411; font-weight: bold; color: var(--gold); font-size: 12px; }
+        .hud-alert-row { color: var(--alert-red) !important; font-weight: bold; text-decoration: line-through; opacity: 0.5; }
+        
+        .timer-display { font-size: 22px; font-weight: bold; color: #fff; font-family: monospace; margin: 2px 0; text-shadow: 0 0 8px rgba(255,255,255,0.3); }
+        .timer-btn { background-color: var(--neon-blue); color: #000; border: none; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; margin: 2px; text-transform: uppercase; }
+        .timer-note { font-size: 9px; color: var(--gold); margin-top: 4px; line-height: 1.2; font-style: italic; font-weight: bold; }
+        /* Collapsible Dropdown Navigation Controls */
+        .menu-btn-trigger { background: #111116; border: 1px solid var(--gold); color: var(--gold); padding: 8px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+        .menu-dropdown-content { display: none; flex-direction: column; gap: 6px; background: #161622; border: 1px solid var(--neon-purple); border-radius: 6px; padding: 8px; position: absolute; top: 50px; left: 10px; z-index: 2500; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .menu-dropdown-content.show { display: flex; }
+        .mode-btn { background: #1a1a26; border: 1px solid var(--border-color); color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; text-transform: uppercase; text-align: left; }
+        .mode-btn:hover { background: #252538; }
+        .mode-btn.active { background: var(--neon-blue); color: #000; border-color: var(--neon-blue); }
 
-        .hud-right { width: 180px; background-color: rgba(11, 21, 26, 0.95); border: 1px solid #00e1ff; border-radius: 8px; padding: 12px; box-sizing: border-box; text-align: center; pointer-events: auto; backdrop-filter: blur(4px); }
-        .hud-right h3 { margin: 0 0 8px 0; color: #00e1ff; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #113344; padding-bottom: 4px; }
-        .timer-display { font-size: 24px; font-weight: bold; color: #fff; font-family: monospace; margin: 5px 0; text-shadow: 0 0 8px rgba(255,255,255,0.3); }
-        .timer-btn { background-color: #00e1ff; color: #000; border: none; padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; cursor: pointer; margin: 2px; text-transform: uppercase; }
-        .timer-note { font-size: 10px; color: #ffaa00; margin-top: 6px; line-height: 1.3; font-style: italic; font-weight: bold; }
-        /* Centered Card Wrapping Containers */
-        .centered-card-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 25px; box-sizing: border-box; }
-        .top-panel-card { background-color: #1a1a26; padding: 20px; border-radius: 8px; display: flex; flex-direction: column; gap: 12px; border: 1px solid #28283d; width: 100%; max-width: 510px; box-sizing: border-box; }
-        .top-panel-card label { font-weight: bold; color: #00ff88 !important; font-size: 12px; text-transform: uppercase; text-align: center; }
+        /* Field Sizing & Core Cards Grid Alignment */
+        .centered-card-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 20px; box-sizing: border-box; }
+        .primary-target-card { background-color: #1a1a26; padding: 15px; border-radius: 8px; border: 1px solid #28283d; width: 100%; max-width: 510px; text-align: center; box-sizing: border-box; }
+        .primary-target-card label { font-weight: bold; color: var(--neon-green); font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 6px; }
 
-        /* Grid Column Configurations */
         .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .col-header { grid-column: span 1; color: #00e1ff !important; font-size: 13px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; text-align: center; border-bottom: 1px solid #222233; padding-bottom: 4px; }
-        h3.group-title { color: #00e1ff !important; font-size: 14px; margin: 25px 0 10px 0; font-weight: bold; text-transform: uppercase; text-align: center; border-bottom: 1px dashed #333344; padding-bottom: 6px; }
+        body.mobile-mode .card-grid, body.mobile-mode .card-grid-3 { grid-template-columns: 1fr !important; }
+        body.mobile-mode .desktop-spacer { display: none !important; }
+
+        .section-banner { grid-column: 1 / -1; color: var(--neon-blue); font-size: 15px; font-weight: bold; text-transform: uppercase; border-bottom: 1px dashed #333344; padding-bottom: 6px; margin-top: 15px; text-align: center; }
+        .col-header { grid-column: span 1; color: #888; font-size: 11px; font-weight: bold; text-transform: uppercase; text-align: center; margin-bottom: 5px; }
+        body.mobile-mode .col-header { display: none !important; }
+        .loot-card { background-color: var(--card-bg); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 8px; text-align: center; box-sizing: border-box; transition: all 0.2s ease; position: relative; }
+        .loot-card.priority-high { border-color: var(--gold) !important; background: rgba(255, 170, 0, 0.03); }
+        .priority-tag { position: absolute; top: 5px; right: 5px; background: var(--gold); color: #000; font-size: 9px; font-weight: bold; padding: 1px 4px; border-radius: 3px; text-transform: uppercase; }
         
-        .loot-card { background-color: #0b0b10; padding: 15px; border-radius: 8px; border: 1px solid #1f1f2e; display: flex; flex-direction: column; gap: 10px; text-align: center; box-sizing: border-box; transition: all 0.2s ease; }
-        .item-name { color: #b055ff !important; font-weight: bold; font-size: 14px; text-transform: uppercase; text-align: center; }
-        .card-action-row { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px; border: 1px solid #222233; margin-top: auto; }
+        .item-name { color: var(--neon-purple) !important; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+        .card-action-row { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.3); padding: 6px; border-radius: 6px; border: 1px solid #222233; margin-top: auto; font-size: 11px; }
         
         input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
         input[type="number"], select { -moz-appearance: textfield; padding: 8px; background-color: #06060a; border: 1px solid #363654; color: #fff; border-radius: 6px; font-size: 13px; box-sizing: border-box; width: 100%; text-align: center; }
-        .gold-box-row { background-color: rgba(255, 170, 0, 0.12) !important; border: 1px solid #ffaa00 !important; }
-        .card-burned { opacity: 0.35 !important; filter: grayscale(50%); }
-        .card-burned .item-name { color: #ff3b30 !important; text-decoration: line-through !important; }
         
-        .voice-ptt-btn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background-color: #00ff88; color: #000; border: 2px solid #06060a; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,255,136,0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 2000; transition: all 0.2s ease; }
-        .voice-ptt-btn.listening { background-color: #ff3b30 !important; color: #fff !important; box-shadow: 0 0 20px #ff3b30; animation: pttPulse 1.2s infinite; }
+        .gold-box-row { background-color: rgba(255, 170, 0, 0.12) !important; border: 1px solid var(--gold) !important; }
+        .card-burned { opacity: 0.35 !important; filter: grayscale(60%); }
+        .card-burned .item-name { color: var(--alert-red) !important; text-decoration: line-through !important; }
+        
+        .voice-ptt-btn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background-color: var(--neon-green); color: #000; border: 2px solid #06060a; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,255,136,0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 1900; transition: all 0.2s ease; }
+        .voice-ptt-btn.listening { background-color: var(--alert-red) !important; color: #fff !important; box-shadow: 0 0 20px #ff3b30; animation: pttPulse 1.2s infinite; }
         @keyframes pttPulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
         
-        @media (max-width: 768px) { .card-grid, .card-grid-3 { grid-template-columns: 1fr !important; } .col-header { display: none !important; } .hud-wrapper { display: none !important; } }
+        .btn-calc { display: block; width: 100%; padding: 14px; background-color: var(--neon-green); color: #07070a; border: none; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 255, 136, 0.2); margin-top: 15px; }
+        .btn-control-row { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-sec { flex: 1; padding: 10px; background: #1f1f2e; color: #fff; border: 1px solid #363654; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+
+        #results-box { display: none; background-color: #14221a; padding: 20px; border-radius: 8px; margin-top: 22px; border: 1px solid var(--neon-green); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+        .modal-box { background: #161622; border: 2px solid var(--neon-purple); border-radius: 12px; padding: 25px; max-width: 450px; width: 90%; text-align: center; box-sizing: border-box; }
+        .modal-box h3 { color: var(--neon-purple); margin-top: 0; text-transform: uppercase; font-size: 16px; letter-spacing: 1px; }
+        .modal-btn-group { display: flex; gap: 12px; margin-top: 20px; }
+        .modal-btn { flex: 1; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; border: none; font-size: 13px; }
+        .modal-btn-confirm { background: var(--neon-green); color: #000; }
+        .modal-btn-abort { background: #2a2a38; color: #fff; }
+        @media (max-width: 768px) { .hud-wrapper { margin-bottom: -40px; } }
     </style>
 </head>
 <body>
-
 <div class="hud-wrapper">
-    <div class="hud-left">
-        <h3>📋 Buyer's Request</h3>
-        <div id="special-list-container">No targets flagged yet.</div>
-        <div class="special-total-row">Total Request: <span id="special-total-val">$0</span></div>
+    <div class="hud-panel-left">
+        <!-- Collapsible Configuration Settings Trigger Anchor Box -->
+        <div>
+            <button class="menu-btn-trigger" onclick="toggleLayoutMenuDeck(event)" aria-label="Toggle Layout Menu">⚙️</button>
+            <div class="menu-dropdown-content" id="layout-dropdown-menu">
+                <button class="mode-btn active" id="btn-layout-desktop" onclick="setLayoutMode('desktop')">🖥️ Desktop Split</button>
+                <button class="mode-btn" id="btn-layout-mobile" onclick="setLayoutMode('mobile')">📱 Mobile Route</button>
+                <button class="mode-btn" style="opacity:0.5; cursor:not-allowed;">🗺️ Map Module</button>
+            </div>
+        </div>
+        <div style="flex-grow: 1;">
+            <h3>📋 Buyer's Request</h3>
+            <div id="special-list-container">No targets flagged yet.</div>
+            <div class="special-total-row">Total: <span id="special-total-val">$0</span></div>
+        </div>
     </div>
-    <div class="hud-right">
+    <div class="hud-panel-right">
         <h3>⏱️ Speedrun Timer</h3>
         <div class="timer-display" id="time-clock">17:00</div>
         <button class="timer-btn" onclick="toggleTimer()" id="timer-toggle-btn">Start</button>
-        <button class="timer-btn" onclick="resetTimer()" style="position:static;width:auto;padding:4px 8px;margin:2px;">Reset</button>
-        <div class="timer-note">!! MAKE SURE TO PAUSE DURING CUTSCENES, THEY DON'T COUNT TOWARDS YOUR OVERALL TIME !!</div>
+        <button class="timer-btn" onclick="resetTimer()">Reset</button>
+        <div class="timer-note">Auto-Save System Active</div>
     </div>
 </div>
 
 <div class="container">
-    <h1>Kortz Center Heist Master Matrix</h1>
-    <div class="subtitle">Custom Tactical Route Planner for Solo & Multi-Crew Runs</div>
+    <h1>Kortz Center Heist Master Matrix <span class="version-badge">v5.0-Alpha</span></h1>
+    <div class="subtitle">Custom Tactical Route Planner & Loot Bag Calculator</div>
 
+    <!-- Centered Setup Manifest Card Layout Element Block -->
     <div class="centered-card-wrapper">
-        <div class="top-panel-card">
-            <label for="val-primary">($) Primary Target ($)</label>
-            <input type="number" id="val-primary" placeholder="(Average Price: $300,000)">
-            <label for="opt-primary" style="margin-top:5px;">Sell / Keep</label>
-            <select id="opt-primary" style="text-align-last: center;">
-                <option value="sell">Sell Target</option>
-                <option value="keep">Keep Target</option>
+        <div class="primary-target-card">
+            <label for="val-primary">($) Primary Target Safe Yield ($)</label>
+            <input type="number" id="val-primary" oninput="saveCurrentState()" placeholder="(Average Price: $300,000)" tabindex="1">
+            <label for="opt-primary" style="margin-top:10px;">Sell / Keep Option</label>
+            <select id="opt-primary" onchange="saveCurrentState()" style="text-align-last: center;">
+                <option value="sell">Sell Safe Target</option>
+                <option value="keep">Keep Safe Target</option>
             </select>
         </div>
     </div>
-    <h2>1. Vault Room Locations</h2>
-    <div class="note">Perspective Matrix: Staring directly forward at primary target.</div>
-    
     <div class="card-grid">
-        <div class="col-header">Left Side Vault Assets</div>
-        <div class="col-header">Right Side Vault Assets</div>
+        <div class="section-banner">Middle Level: Main Entrance Sweep Block</div>
+        <div class="col-header">Left Side Layout Stack</div>
+        <div class="col-header">Right Side Layout Stack</div>
 
-        <!-- Left Front Row -->
-        <div class="loot-card" id="row-vleftfront">
-            <div style="color:#00ff88; font-size:11px; font-weight:bold;">FRONT ROW</div>
-            <div class="item-name">Painting: The Hunter Becomes the Hunted</div>
-            <input type="number" id="val-vleftfront" placeholder="(Average Price: $82,000)" data-pct="50">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vleftfront" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <!-- Right Front Row -->
-        <div class="loot-card" id="row-vrightfront">
-            <div style="color:#00ff88; font-size:11px; font-weight:bold;">FRONT ROW</div>
-            <div class="item-name">Painting: With Friends Like These</div>
-            <input type="number" id="val-vrightfront" placeholder="(Average Price: $82,000)" data-pct="50">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vrightfront" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <!-- Left Back Row -->
-        <div class="loot-card" id="row-vleftback">
-            <div style="color:#00ff88; font-size:11px; font-weight:bold;">BACK ROW</div>
-            <div class="item-name">Painting: Swing Set Study Number LXiX</div>
-            <input type="number" id="val-vleftback" placeholder="(Average Price: $85,000)" data-pct="50">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vleftback" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <!-- Right Back Row -->
-        <div class="loot-card" id="row-vrightback">
-            <div style="color:#00ff88; font-size:11px; font-weight:bold;">BACK ROW</div>
-            <div class="item-name">Painting: Het Gouden Hondje</div>
-            <input type="number" id="val-vrightback" placeholder="(Average Price: $81,000)" data-pct="50">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vrightback" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-    </div>
-    <h2>2. Loading Bay</h2>
-    <div class="loot-card" id="row-van" style="margin-bottom:20px;">
-        <div class="item-name">Loading Bay Van</div>
-        <input type="number" id="val-van" placeholder="(Average Price: $130,000)">
-        <div class="card-action-row">
-            <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="van" style="margin-left:5px; vertical-align:middle;"></span>
-            <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 25%</span>
-        </div>
-    </div>
-
-    <h2>3. Middle Level Floor Assets</h2>
-    <div class="note">Perspective Matrix: When entering through the front entrance.</div>
-    
-    <div class="card-grid">
-        <div class="col-header">Left Side Assets</div>
-        <div class="col-header">Right Side Assets</div>
-
-        <!-- Left Side Cards -->
-        <div class="loot-card" id="row-explain">
-            <div class="item-name">Painting: Explain Yourself</div>
-            <input type="number" id="val-explain" placeholder="(Average Price: $114,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="explain" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <!-- Right Side Cards -->
+        <!-- Step 1: Canis Hominem Edit Painting -->
         <div class="loot-card" id="row-canis">
-            <div class="item-name">Painting: Canis Hominem</div>
-            <input type="number" id="val-canis" placeholder="(Average Price: $113,000)">
+            <div class="item-name">1. Painting: Canis Hominem Edit</div>
+            <input type="number" id="val-canis" oninput="saveCurrentState()" placeholder="(Average Price: $113,000)" tabindex="2">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="canis" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-canis" data-id="canis" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
             </div>
         </div>
 
-        <div class="loot-card" id="row-see">
-            <div class="item-name">Painting: Do You See Me?</div>
-            <input type="number" id="val-see" placeholder="(Average Price: $110,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="see" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
+        <!-- Step 2: Orange Crush Painting -->
         <div class="loot-card" id="row-orange">
-            <div class="item-name">Painting: Orange Crush</div>
-            <input type="number" id="val-orange" placeholder="(Average Price: $112,000)">
+            <div class="item-name">2. Painting: Orange Crush</div>
+            <input type="number" id="val-orange" oninput="saveCurrentState()" placeholder="(Average Price: $112,000)" tabindex="3">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="orange" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-orange" data-id="orange" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
             </div>
         </div>
 
-        <div class="loot-card" id="row-duchessa">
-            <div class="item-name">Painting: La Duchessa</div>
-            <input type="number" id="val-duchessa" placeholder="(Average Price: $114,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="duchessa" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <div class="loot-card" id="row-chief">
-            <div class="item-name">Painting: The Chief</div>
-            <input type="number" id="val-chief" placeholder="(Average Price: $110,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="chief" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <div class="loot-card" id="row-coquardrings">
-            <div class="item-name">Coquard Rings (Outside)</div>
-            <input type="number" id="val-coquardrings" placeholder="(Average Price: $30,500)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="coquardrings" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
-            </div>
-        </div>
-        <div class="loot-card" id="row-antiquerings">
-            <div class="item-name">Antique Rings (Security)</div>
-            <input type="number" id="val-antiquerings" placeholder="(Average Price: $33,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="antiquerings" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
-            </div>
-        </div>
-
+        <!-- Step 3: Pharaonic Bands (Far) -->
         <div class="loot-card" id="row-pharaonic">
-            <div class="item-name">Pharaonic Bands (Far)</div>
-            <input type="number" id="val-pharaonic" placeholder="(Average Price: $31,000)">
+            <div class="item-name">3. Pharaonic Bands (Far)</div>
+            <input type="number" id="val-pharaonic" oninput="saveCurrentState()" placeholder="(Average Price: $31,000)" tabindex="4">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pharaonic" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-pharaonic" data-id="pharaonic" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
             </div>
         </div>
-        <div class="loot-card" id="row-artdecorings">
-            <div class="item-name">Art Deco Rings (Left)</div>
-            <input type="number" id="val-artdecorings" placeholder="(Average Price: $33,000)">
+
+        <!-- Step 4: Explain Yourself Painting -->
+        <div class="loot-card" id="row-explain">
+            <div class="item-name">4. Painting: Explain Yourself</div>
+            <input type="number" id="val-explain" oninput="saveCurrentState()" placeholder="(Average Price: $114,000)" tabindex="5">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="artdecorings" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-explain" data-id="explain" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
             </div>
         </div>
-        
-        <!-- Antique Bands dropped perfectly parallel underneath Art Deco Rings case inside right column stack -->
-        <div style="pointer-events:none; visibility:hidden;"></div>
+
+        <!-- Step 5: La Duchesse Painting -->
+        <div class="loot-card" id="row-duchesse">
+            <div class="item-name">5. Painting: La Duchesse</div>
+            <input type="number" id="val-duchesse" oninput="saveCurrentState()" placeholder="(Average Price: $114,000)" tabindex="6">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-duchesse" data-id="duchesse" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="section-banner">Middle Level: Windows & Staircase Core Row</div>
+        <div class="col-header">Left Side Layout Stack</div>
+        <div class="col-header">Right Side Layout Stack</div>
+
+        <!-- Step 6: Do You See Me Painting -->
+        <div class="loot-card" id="row-see">
+            <div class="item-name">6. Painting: Do You See Me?</div>
+            <input type="number" id="val-see" oninput="saveCurrentState()" placeholder="(Average Price: $110,000)" tabindex="7">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-see" data-id="see" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <!-- Step 7: Coquard Rings (Outside Partition Wall) -->
+        <div class="loot-card" id="row-coquardrings">
+            <div class="item-name">7. Coquard Rings (Outside Wall)</div>
+            <input type="number" id="val-coquardrings" oninput="saveCurrentState()" placeholder="(Average Price: $30,500)" tabindex="8">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-coquardrings" data-id="coquardrings" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <!-- Step 9: Antique Bands Case (Right Column Drop Stack) -->
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
         <div class="loot-card" id="row-antiquebands">
-            <div class="item-name">Antique Bands (Right)</div>
-            <input type="number" id="val-antiquebands" placeholder="(Average Price: $32,500)">
+            <div class="item-name">9. Antique Bands (Right Case)</div>
+            <input type="number" id="val-antiquebands" oninput="saveCurrentState()" placeholder="(Average Price: $32,500)" tabindex="10">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="antiquebands" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-antiquebands" data-id="antiquebands" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <!-- Step 10: Art Deco Rings Case (Left Column Stack Parallel) -->
+        <div class="loot-card" id="row-artdecorings">
+            <div class="item-name">10. Art Deco Rings (Left Case)</div>
+            <input type="number" id="val-artdecorings" oninput="saveCurrentState()" placeholder="(Average Price: $33,000)" tabindex="11">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-artdecorings" data-id="artdecorings" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <!-- Step 11: Antique Rings Case (Security Door Frame Side) -->
+        <div class="loot-card" id="row-antiquerings">
+            <div class="item-name">11. Antique Rings (Security Door)</div>
+            <input type="number" id="val-antiquerings" oninput="saveCurrentState()" placeholder="(Average Price: $33,000)" tabindex="12">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-antiquerings" data-id="antiquerings" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <!-- Step 12: The Chief Painting (Transition Spot) -->
+        <div class="loot-card" id="row-chief">
+            <div class="item-name">12. Painting: The Chief</div>
+            <input type="number" id="val-chief" oninput="saveCurrentState()" placeholder="(Average Price: $110,000)" tabindex="13">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-chief" data-id="chief" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
             </div>
         </div>
     </div>
-    
-    <!-- Standard-sized card centers beautifully at the bottom of the section -->
+
+    <!-- Step 8: Standard Sized Centered Floor Fertility Statue Card Container Component -->
     <div class="centered-card-wrapper">
         <div class="loot-card" id="row-fertility" style="width: 100%; max-width: 510px;">
-            <div class="item-name">Middle Floor Fertility Statue (Near Stairs)</div>
-            <input type="number" id="val-fertility" placeholder="(Average Price: $55,000)">
+            <div class="item-name">8. Middle Floor Fertility Statue</div>
+            <input type="number" id="val-fertility" oninput="saveCurrentState()" placeholder="(Average Price: $55,000)" tabindex="9">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="fertility" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-fertility" data-id="fertility" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
             </div>
         </div>
     </div>
-    <h2>4. Downstairs Level (Elevator Tower Area)</h2>
+    <h2>2. Vault Room Security Monitor Loops</h2>
+    <div class="note">Perspective Matrix: Direct surveillance scanner layout feeds.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Side Vault Matrix</div>
+        <div class="col-header">Right Side Vault Matrix</div>
+
+        <!-- Step 13: Vault Left Back Row Painting -->
+        <div class="loot-card" id="row-vleftback">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">BACK ROW FEED</div>
+            <div class="item-name">13. Painting: Swing Set Study Number LXiX</div>
+            <input type="number" id="val-vleftback" oninput="saveCurrentState()" placeholder="(Average Price: $85,000)" data-pct="50" tabindex="14">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vleftback" data-id="vleftback" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <!-- Step 14: Vault Left Front Row Painting -->
+        <div class="loot-card" id="row-vleftfront">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">FRONT ROW FEED</div>
+            <div class="item-name">14. Painting: The Hunter Becomes the Hunted</div>
+            <input type="number" id="val-vleftfront" oninput="saveCurrentState()" placeholder="(Average Price: $82,000)" data-pct="50" tabindex="15">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vleftfront" data-id="vleftfront" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <!-- Step 15: Vault Right Front Row Painting -->
+        <div class="loot-card" id="row-vrightfront">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">FRONT ROW FEED</div>
+            <div class="item-name">15. Painting: With Friends Like These</div>
+            <input type="number" id="val-vrightfront" oninput="saveCurrentState()" placeholder="(Average Price: $82,000)" data-pct="50" tabindex="16">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vrightfront" data-id="vrightfront" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <!-- Step 16: Vault Right Back Row Painting -->
+        <div class="loot-card" id="row-vrightback">
+            <div style="color:var(--neon-green); font-size:11px; font-weight:bold;">BACK ROW FEED</div>
+            <div class="item-name">16. Painting: Het Gouden Hondje</div>
+            <input type="number" id="val-vrightback" oninput="saveCurrentState()" placeholder="(Average Price: $81,000)" data-pct="50" tabindex="17">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-vrightback" data-id="vrightback" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+    </div>
+    <h2>3. Tactical Loading Area / Van Spawn</h2>
+    <div class="note" style="color:var(--gold); font-weight:bold; margin-bottom:10px;">⚙️ Operational Note: The loading bay van yield cannot be scoped via security cameras. To secure its exact live pricing matrix value, you must initiate the finale, loot the cargo asset, and then intentionally fail or restart the run.</div>
+
+    <!-- Step 17: Loading Bay Van Custom Card with integrated 3-State Dropdown and 30% Weight Limits -->
+    <div class="loot-card priority-high" id="row-van" style="margin-bottom:25px;">
+        <div class="priority-tag">Highest Priority Target</div>
+        <div class="item-name">17. Loading Bay Van Cargo Asset</div>
+        
+        <div style="display:flex; flex-direction:column; gap:6px; margin: 4px 0;">
+            <select id="state-van" onchange="handleVanDropdownStateChange()" style="border-color:var(--gold); font-weight:bold;">
+                <option value="missing">❌ Asset Not Present On This Run</option>
+                <option value="average">⚖️ Use Baseline Average ($125,000)</option>
+                <option value="override">✏️ Manual Override (Custom Price Entry)</option>
+            </select>
+            <input type="number" id="val-van" oninput="saveCurrentState()" placeholder="($125,000 Locked to Average)" disabled style="opacity:0.5; border-color:#222;">
+        </div>
+
+        <div class="card-action-row">
+            <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-van" data-id="van" onchange="saveCurrentState()"></span>
+            <span style="color:var(--neon-blue); font-weight:bold;">Loot Bag Capacity Consumption: 30%</span>
+        </div>
+    </div>
+    <h2>4. Downstairs Level (Elevator Tower Row)</h2>
+    <div class="note">Real-World Spatial Context: Three side-by-side enclosures stacked against partition boundary wall.</div>
+    
     <div class="card-grid-3">
-        <!-- Re-engineered clean parallel three-column room alignment aspect grid -->
+        <!-- Step 18: Memento non Mori Skull Enclosure Card (Left Enclosure) -->
         <div class="loot-card" id="row-skull">
-            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">LEFT ENCLOSURE</div>
-            <div class="item-name">Pedestal: Memento non Mori Skull</div>
-            <input type="number" id="val-skull" placeholder="(Average Price: $88,000)">
+            <div style="color:var(--neon-blue); font-size:10px; font-weight:bold;">LEFT ENCLOSURE</div>
+            <div class="item-name">18. Pedestal: Memento non Mori Skull</div>
+            <input type="number" id="val-skull" oninput="saveCurrentState()" placeholder="(Average Price: $88,000)" tabindex="18">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="skull" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-skull" data-id="skull" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
             </div>
         </div>
+
+        <!-- Step 19: Downstairs Decorative Egg Enclosure Card (Middle Enclosure) -->
         <div class="loot-card" id="row-downegg">
-            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">MIDDLE ENCLOSURE</div>
-            <div class="item-name">Downstairs Decorative Egg</div>
-            <input type="number" id="val-downegg" placeholder="(Average Price: $58,000)">
+            <div style="color:var(--neon-blue); font-size:10px; font-weight:bold;">MIDDLE ENCLOSURE</div>
+            <div class="item-name">19. Downstairs Decorative Egg</div>
+            <input type="number" id="val-downegg" oninput="saveCurrentState()" placeholder="(Average Price: $58,000)" tabindex="19">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="downegg" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-downegg" data-id="downegg" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
             </div>
         </div>
+
+        <!-- Step 20: Byzantine Hoops Enclosure Card (Right Enclosure) -->
         <div class="loot-card" id="row-hoops">
-            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">RIGHT ENCLOSURE</div>
-            <div class="item-name">Byzantine Hoops</div>
-            <input type="number" id="val-hoops" placeholder="(Average Price: $33,000)">
+            <div style="color:var(--neon-blue); font-size:10px; font-weight:bold;">RIGHT ENCLOSURE</div>
+            <div class="item-name">20. Byzantine Hoops</div>
+            <input type="number" id="val-hoops" oninput="saveCurrentState()" placeholder="(Average Price: $33,000)" tabindex="20">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="hoops" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+                <span style="color:var(--gold)">BR: <input type="checkbox" class="gold-chk" id="chk-hoops" data-id="hoops" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
             </div>
         </div>
     </div>
     <h2>5. Upstairs Level Floor Assets</h2>
-    <div class="card-grid">
-        <div class="col-header">Back Wing (Paintings)</div>
-        <div class="col-header">Front Wing (Display Cases)</div>
-
-        <!-- Flipped layout: Back Wing Paintings on Left | Front Wing Cases on Right -->
-        <div class="loot-card" id="row-cooked">
-            <div class="item-name">Painting: Cooked</div>
-            <input type="number" id="val-cooked" placeholder="(Average Price: $117,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="cooked" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <div class="loot-card" id="row-coquardbracelets">
-            <div class="item-name">Coquard Bracelets</div>
-            <input type="number" id="val-coquardbracelets" placeholder="(Average Price: $31,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="coquardbracelets" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
-            </div>
-        </div>
-
-        <div class="loot-card" id="row-sawed">
-            <div class="item-name">Painting: Sawed Off</div>
-            <input type="number" id="val-sawed" placeholder="(Average Price: $112,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="sawed" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <div class="loot-card" id="row-pedleft">
-            <div class="item-name">Pedestal: Horse Statue (Left Case)</div>
-            <input type="number" id="val-pedleft" placeholder="(Average Price: $89,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pedleft" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
-            </div>
-        </div>
-
-        <!-- Case layout reordered down walkthrough track: Bracelets -> Horse -> Carcanets -> Egg -->
-        <div style="pointer-events:none; visibility:hidden;"></div>
-        <div class="loot-card" id="row-pedright">
-            <div class="item-name">Pedestal: Carcanets (Right Case)</div>
-            <input type="number" id="val-pedright" placeholder="(Average Price: $90,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pedright" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
-            </div>
-        </div>
-        <div style="pointer-events:none; visibility:hidden;"></div>
-        <div class="loot-card" id="row-egg">
-            <div class="item-name">Upstairs Decorative Egg</div>
-            <input type="number" id="val-egg" placeholder="(Average Price: $57,000)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="egg" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
-            </div>
-        </div>
-    </div>
-    <h2>6. Multiplayer Crew Keycard Room Assets</h2>
-    <div class="note" style="color:#ff3b30;">Open for data collection by default while scouting. Validated dynamically based on active capacities chosen below.</div>
+    <div class="note">Flipped Navigation Context: Intercepts focus pathing from doorway threshold wide scan coordinates.</div>
     
     <div class="card-grid">
-        <div class="col-header">Left Column Room Assets</div>
-        <div class="col-header">Right Column Room Assets</div>
+        <div class="col-header">Back Wing (Paintings Track)</div>
+        <div class="col-header">Front Wing (Display Cases Loop)</div>
 
-        <div class="loot-card" id="row-circleback">
-            <div class="item-name">Painting: Great Circle Back <span class="lock-badge" id="badge-circleback" style="background:#00ff88;color:#000;">OPEN</span></div>
-            <input type="number" id="val-circleback" placeholder="(Average Price: $154,000)">
+        <!-- Step 21: Upstairs Decorative Egg Component Card -->
+        <div class="loot-card" id="row-egg">
+            <div class="item-name">21. Upstairs Decorative Egg</div>
+            <input type="number" id="val-egg" oninput="saveCurrentState()" placeholder="(Average Price: $57,000)" tabindex="21">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circleback" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
-            </div>
-        </div>
-        <div class="loot-card" id="row-blueprints">
-            <div class="item-name">Painting: Don't Forgo Blueprints <span class="lock-badge" id="badge-blueprints" style="background:#00ff88;color:#000;">OPEN</span></div>
-            <input type="number" id="val-blueprints" placeholder="(Average Price: $152,500)">
-            <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="blueprints" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-egg" data-id="egg" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
             </div>
         </div>
 
-        <div class="loot-card" id="row-algernon">
-            <div class="item-name">Pedestal: Venus D'Algernon <span class="lock-badge" id="badge-algernon" style="background:#00ff88;color:#000;">OPEN</span></div>
-            <input type="number" id="val-algernon" placeholder="(Average Price: $117,000)">
+        <!-- Step 22: Pedestal Carcanets Necklace Case Component Card -->
+        <div class="loot-card" id="row-pedright">
+            <div class="item-name">22. Pedestal: Carcanets (Necklace)</div>
+            <input type="number" id="val-pedright" oninput="saveCurrentState()" placeholder="(Average Price: $90,000)" tabindex="22">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="algernon" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-pedright" data-id="pedright" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
             </div>
         </div>
+
+        <!-- Step 23: Pedestal Horse Statue Case Component Card -->
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
+        <div class="loot-card" id="row-pedleft">
+            <div class="item-name">23. Pedestal: Horse Statue</div>
+            <input type="number" id="val-pedleft" oninput="saveCurrentState()" placeholder="(Average Price: $89,000)" tabindex="23">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-pedleft" data-id="pedleft" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
+            </div>
+        </div>
+
+        <!-- Step 24: Coquard Bracelets Component Card -->
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
+        <div class="loot-card" id="row-coquardbracelets">
+            <div class="item-name">24. Coquard Bracelets</div>
+            <input type="number" id="val-coquardbracelets" oninput="saveCurrentState()" placeholder="(Average Price: $31,000)" tabindex="24">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-coquardbracelets" data-id="coquardbracelets" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
+            </div>
+        </div>
+
+        <!-- Step 25: Painting Sod Off Canvas Card (Left Column Alignment) -->
+        <div class="loot-card" id="row-sodoff">
+            <div class="item-name">25. Painting: Sod Off</div>
+            <input type="number" id="val-sodoff" oninput="saveCurrentState()" placeholder="(Average Price: $112,000)" tabindex="25">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-sodoff" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <!-- Step 26: Painting Cooked Canvas Card (Left Column Stacking Parallel) -->
+        <div class="loot-card" id="row-cooked">
+            <div class="item-name">26. Painting: Cooked</div>
+            <input type="number" id="val-cooked" oninput="saveCurrentState()" placeholder="(Average Price: $117,000)" tabindex="26">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-cooked" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+    </div>
+    <h2>6. Multiplayer Crew Keycard Vault Room Inventory</h2>
+    <div class="note" style="color:var(--alert-red); font-weight:bold;">Operational Lockout: System validates capacity constraints instantly. Cards dim automatically inside calculations block during active solo scoping operations.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Crew Room Tracking Matrix</div>
+        <div class="col-header">Right Crew Room Tracking Matrix</div>
+
+        <!-- Step 27: Crew Vault Entrance Fertility Statue Card Component -->
         <div class="loot-card" id="row-crewfertility">
-            <div class="item-name">Fertility Statue <span class="lock-badge" id="badge-crewfertility" style="background:#00ff88;color:#000;">OPEN</span></div>
-            <input type="number" id="val-crewfertility" placeholder="(Average Price: $84,000)">
+            <div class="item-name">27. Fertility Statue (Crew Vault)</div>
+            <input type="number" id="val-crewfertility" oninput="saveCurrentState()" placeholder="(Average Price: $84,000)" tabindex="27">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="crewfertility" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-crewfertility" data-id="crewfertility" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 20%</span>
             </div>
         </div>
 
-        <div class="loot-card" id="row-circlets">
-            <div class="item-name">Art Deco Circlets <span class="lock-badge" id="badge-circlets" style="background:#00ff88;color:#000;">OPEN</span></div>
-            <input type="number" id="val-circlets" placeholder="(Average Price: $46,000)">
+        <!-- Step 28: Painting Don't Forgo Blueprints Card -->
+        <div class="loot-card" id="row-blueprints">
+            <div class="item-name">28. Painting: Don't Forgo Blueprints</div>
+            <input type="number" id="val-blueprints" oninput="saveCurrentState()" placeholder="(Average Price: $152,500)" tabindex="28">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circlets" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-blueprints" data-id="blueprints" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
             </div>
         </div>
+
+        <!-- Step 29: Painting Great Circle Back Card -->
+        <div class="loot-card" id="row-circleback">
+            <div class="item-name">29. Painting: Great Circle Back</div>
+            <input type="number" id="val-circleback" oninput="saveCurrentState()" placeholder="(Average Price: $154,000)" tabindex="29">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-circleback" data-id="circleback" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 50%</span>
+            </div>
+        </div>
+
+        <!-- Step 30: Pedestal Gemstone Card -->
         <div class="loot-card" id="row-gemstone">
-            <div class="item-name">Pedestal: Gemstone <span class="lock-badge" id="badge-gemstone" style="background:#00ff88;color:#000;">OPEN</span></div>
-            <input type="number" id="val-gemstone" placeholder="(Average Price: $117,000)">
+            <div class="item-name">30. Pedestal: Gemstone</div>
+            <input type="number" id="val-gemstone" oninput="saveCurrentState()" placeholder="(Average Price: $117,000)" tabindex="30">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="gemstone" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-gemstone" data-id="gemstone" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
             </div>
         </div>
-        
-        <!-- Realigned Meteorite Fragments cleanly into the single right column stack underneath Gemstone -->
-        <div style="pointer-events:none; visibility:hidden;"></div>
+
+        <!-- Step 31: Meteorite Fragments Card (Aligned perfectly inside single right column stack) -->
+        <div style="pointer-events:none; visibility:hidden;" class="desktop-spacer"></div>
         <div class="loot-card" id="row-meteorite">
-            <div class="item-name">Meteorite Fragments <span class="lock-badge" id="badge-meteorite" style="background:#00ff88;color:#000;">OPEN</span></div>
-            <input type="number" id="val-meteorite" placeholder="(Average Price: $87,000)">
+            <div class="item-name">31. Meteorite Fragments</div>
+            <input type="number" id="val-meteorite" oninput="saveCurrentState()" placeholder="(Average Price: $87,000)" tabindex="31">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="meteorite" style="margin-left:5px; vertical-align:middle;"></span>
-                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-meteorite" data-id="meteorite" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
+            </div>
+        </div>
+
+        <!-- Step 32: Pedestal Venus D'Algernon Card -->
+        <div class="loot-card" id="row-algernon">
+            <div class="item-name">32. Pedestal: Venus D'Algernon</div>
+            <input type="number" id="val-algernon" oninput="saveCurrentState()" placeholder="(Average Price: $117,000)" tabindex="32">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-algernon" data-id="algernon" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 30%</span>
+            </div>
+        </div>
+
+        <!-- Step 33: Art Deco Circlets Card -->
+        <div class="loot-card" id="row-circlets">
+            <div class="item-name">33. Art Deco Circlets</div>
+            <input type="number" id="val-circlets" oninput="saveCurrentState()" placeholder="(Average Price: $46,000)" tabindex="33">
+            <div class="card-action-row">
+                <span style="color:var(--gold)">BR Match: <input type="checkbox" class="gold-chk" id="chk-circlets" onchange="saveCurrentState()"></span>
+                <span style="color:var(--neon-blue)">Weight: 10%</span>
             </div>
         </div>
     </div>
-
-    <h2>7. Mission Adjustments & Milestone Payouts</h2>
-    <div style="background-color:#1a1a26;padding:15px;border-radius:8px;display:flex;flex-direction:column;gap:10px;margin-bottom:15px;border:1px solid #2d2d3f;">
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-hard" checked style="width:16px;height:16px;margin:0;"> Hard Mode Active (+10% on bag items)</label>
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-special" style="width:16px;height:16px;margin:0;"> [BONUS] Prioritize & Complete Buyer's Request Manifest (+$50,000)</label>
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-elite" style="width:16px;height:16px;margin:0;"> Elite Challenge Completed (+$150,000 Flat)</label>
-        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#ffaa00;font-weight:bold;font-size:13px;text-align:left;"><input type="checkbox" id="chk-autobox" style="width:16px;height:16px;margin:0;"> Fill remaining space with Lock Boxes ($7,500 per 5% capacity slot)</label>
-    </div>
-
-    <div style="background-color:#111116; padding:12px; border-radius:6px; border:1px solid #363654; margin-bottom:10px; display:flex; flex-direction:column; gap:6px; text-align:center;">
-        <label for="crew-size" style="color:#00e1ff; font-weight:bold; font-size:13px;">CHOOSE ACTIVE TEAM CAPACITY FOR MATRIX SPLIT:</label>
-        <select id="crew-size" style="font-weight:bold; border-color:#00ff88;" onchange="updateGoldManifestTracker()">
-            <option value="1">Solo Run (100% Bag Capacity)</option>
-            <option value="2">2 Players (200% Bag Capacity)</option>
-            <option value="3">3 Players (300% Bag Capacity)</option>
-            <option value="4">4 Players (400% Bag Capacity)</option>
+    <h2>7. Mission Adjustments & Logistical Modifiers</h2>
+    <div style="background-color:#1a1a26; padding:15px; border-radius:8px; display:flex; flex-direction:column; gap:10px; border:1px solid #2d2d3f; margin-bottom:15px;">
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#fff; font-size:13px; text-align:left;"><input type="checkbox" id="chk-hard" checked onchange="saveCurrentState()" style="width:16px; height:16px; margin:0;"> Hard Mode Active (+10% Premium Yield on Bag Items)</label>
+        <label style="display:flex; align-items:center; gap:10px; cursor:pointer; color:#fff; font-size:13px; text-align:left;"><input type="checkbox" id="chk-elite" onchange="saveCurrentState()" style="width:16px; height:16px; margin:0;"> Elite Challenge Completed (+$150,000 Flat Bounty Award)</label>
+        <label for="crew-size" style="color:var(--neon-blue); font-weight:bold; font-size:13px;">ACTIVE TEAM DUFFEL CAPACITY SPLIT CONFIGURATION:</label>
+        <select id="crew-size" style="font-weight:bold; border-color:var(--neon-green);" onchange="handleCrewLockoutUI()">
+            <option value="1">Solo Run (100% Bag Capacity Matrix)</option>
+            <option value="2">2 Players (200% Bag Capacity Matrix)</option>
+            <option value="3">3 Players (300% Bag Capacity Matrix)</option>
+            <option value="4">4 Players (400% Bag Capacity Matrix)</option>
         </select>
     </div>
 
-    <button class="btn-calc" onclick="calculateHeistPayout()">Execute Master Math Matrix</button>
+    <button class="btn-calc" onclick="executeLootOptimization()">Execute Master Math Matrix</button>
+    <div class="btn-control-row">
+        <button class="btn-sec" onclick="triggerEndSessionSequence()">Next Scoping Run</button>
+        <button class="btn-sec" style="border-color:var(--alert-red); color:var(--alert-red);" onclick="factoryResetAnalytics()">Factory Reset Defaults</button>
+    </div>
 
-    <div id="results-box" style="display:none;background-color:#14221a;padding:20px;border-radius:8px;margin-top:25px;border:1px solid #00ff88;">
-        <h3 style="margin-top:0;color:#00ff88;text-transform:uppercase;font-size:14px;text-align:center;">Tactical Manifest & Optimized Loadout</h3>
-        <p style="font-size:13px;font-weight:bold;color:#aaaaf0;margin-bottom:5px;">Green-Highlighted Targets to Bag:</p>
-        <div id="loot-recommendation" style="color:#fff;line-height:1.5;font-size:13px;"></div>
-        <p style="margin-top:12px;font-size:13px;" id="weight-ledger-row"><strong>Combined Capacity:</strong> <span id="slots-used">0</span>% / <span id="slots-total-cap">100</span>% Bag Space Packed</p>
-        <hr style="border:0;border-top:1px solid #233a2a;margin:12px 0;">
-        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#bbb;">
-            <div>Base Secondary Value: <span id="res-base" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
-            <div id="lockbox-row" style="display:none;color:#ffaa00;">Auto-Drilled Vault Lockboxes: <span id="res-lockbox" style="float:right;font-weight:bold;">$0</span></div>
-            <div>Hard Mode Premium (+10%): <span id="res-hard" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
-            <div>Bonus Milestones: <span id="res-bonus" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
-            <div>Primary Target Safe Payout: <span id="res-primary" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+    <!-- Optimization Yield Summary Metrics Display Deck Box -->
+    <div id="results-box">
+        <h3 style="margin-top:0; color:var(--neon-green); text-transform:uppercase; font-size:14px; text-align:center;">Optimized Loot Assignment Manifest</h3>
+        <p style="font-size:13px; font-weight:bold; color:#aaaaf0; margin-bottom:5px;">Target Assets Highlighted to Pack:</p>
+        <div id="loot-recommendation" style="color:#fff; line-height:1.5; font-size:13px; font-family:monospace;"></div>
+        <p style="margin-top:12px; font-size:13px;" id="weight-ledger-row"><strong>Combined Volume Used:</strong> <span id="slots-used">0</span>% / <span id="slots-total-cap">100</span>% Space Allocation Packed</p>
+        <hr style="border:0; border-top:1px solid #233a2a; margin:12px 0;">
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:13px; color:#bbb; font-family:monospace;">
+            <div>Secondary Loot Yield: <span id="res-base" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
+            <div>Hard Mode Premium (+10%): <span id="res-hard" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
+            <div>Bounty Milestone Adjustments: <span id="res-bonus" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
+            <div>Primary Safe Vault Core Take: <span id="res-primary" style="color:#fff; float:right; font-weight:bold;">$0</span></div>
         </div>
-        <h2 style="color:#00ff88;margin-top:15px;font-size:20px;border:none;padding:0;text-align:left;">Net Maze Bank Deposit: <span id="res-total" style="float:right;">$0</span></h2>
+        <h2 style="color:var(--neon-green); margin-top:15px; font-size:20px; border:none; padding:0; text-align:left;">Net Deposit Manifest: <span id="res-total" style="float:right;">$0</span></h2>
     </div>
 </div>
 
-<button class="voice-ptt-btn" id="voice-ptt-btn" onclick="toggleVoiceListening()">🎙️</button>
+<!-- Interactive Choice Confirmation Popup Gateway Element Component Container Overlay -->
+<div class="modal-overlay" id="end-session-modal">
+    <div class="modal-box">
+        <h3>End Active Scoping Session</h3>
+        <p style="font-size: 13px; color: #bbb; line-height: 1.5;">Do you want to log and commit this run's data parameters into your local running historical database statistics average?</p>
+        <div class="modal-btn-group">
+            <button class="modal-btn modal-btn-confirm" onclick="closeSessionGate(true)">Yes, Commit Run</button>
+            <button class="modal-btn modal-btn-abort" onclick="closeSessionGate(false)">No, Discard / Clear</button>
+        </div>
+    </div>
+</div>
+
+<button class="voice-ptt-btn" id="voice-ptt-btn" style="display:none;">🎙️</button>
 <script>
-let timerInterval = null; let timeRemainingSeconds = 17 * 60;
-function toggleTimer() {
-    let btn = document.getElementById('timer-toggle-btn');
-    if (timerInterval) { clearInterval(timerInterval); timerInterval = null; btn.innerText = "Start"; btn.style.backgroundColor = "#00e1ff"; } 
-    else {
-        btn.innerText = "Pause"; btn.style.backgroundColor = "#ff3b30"; btn.style.color = "#fff";
-        timerInterval = setInterval(() => {
-            if (timeRemainingSeconds > 0) {
-                timeRemainingSeconds--;
-                let mins = Math.floor(timeRemainingSeconds / 60).toString().padStart(2, '0');
-                let secs = (timeRemainingSeconds % 60).toString().padStart(2, '0');
-                document.getElementById('time-clock').innerText = mins + ":" + secs;
-            } else { clearInterval(timerInterval); document.getElementById('time-clock').innerText = "00:00 - TIME OUT"; }
-        }, 1000);
-    }
-}
-function resetTimer() {
-    clearInterval(timerInterval); timerInterval = null; timeRemainingSeconds = 17 * 60;
-    document.getElementById('time-clock').innerText = "17:00";
-    let btn = document.getElementById('timer-toggle-btn'); btn.innerText = "Start"; btn.style.backgroundColor = "#00e1ff"; btn.style.color = "#000";
-}
+    // Structural Hardware Database Weights Matrix
+    const LOOT_PROPERTIES = {
+        canis: { weight: 50, label: "PAINTING: CANIS HOMINEM EDIT" },
+        orange: { weight: 50, label: "PAINTING: ORANGE CRUSH" },
+        pharaonic: { weight: 10, label: "PHARAONIC BANDS (FAR)" },
+        explain: { weight: 50, label: "PAINTING: EXPLAIN YOURSELF" },
+        duchesse: { weight: 50, label: "PAINTING: LA DUCHESSE" },
+        see: { weight: 50, label: "PAINTING: DO YOU SEE ME" },
+        coquardrings: { weight: 10, label: "COQUARD RINGS (OUTSIDE WALL)" },
+        fertility: { weight: 20, label: "MIDDLE FLOOR FERTILITY STATUE" },
+        antiquebands: { weight: 10, label: "ANTIQUE BANDS (RIGHT CASE)" },
+        artdecorings: { weight: 10, label: "ART DECO RINGS (LEFT CASE)" },
+        antiquerings: { weight: 10, label: "ANTIQUE RINGS (SECURITY DOOR)" },
+        chief: { weight: 50, label: "PAINTING: THE CHIEF" },
+        vleftback: { weight: 50, label: "VAULT PAINTING: SWING SET" },
+        vleftfront: { weight: 50, label: "VAULT PAINTING: THE HUNTER" },
+        vrightfront: { weight: 50, label: "VAULT PAINTING: WITH FRIENDS" },
+        vrightback: { weight: 50, label: "VAULT PAINTING: HET GOUDEN HONDJE" },
+        van: { weight: 30, label: "LOADING BAY VAN CARGO ASSET", critical: true }, // Field Tested 30% Capacity Threshold 
+        skull: { weight: 30, label: "PEDESTAL: MORI SKULL" },
+        downegg: { weight: 20, label: "DOWNSTAIRS DECORATIVE EGG" },
+        hoops: { weight: 10, label: "BYZANTINE HOOPS" },
+        egg: { weight: 20, label: "UPSTAIRS DECORATIVE EGG" },
+        pedright: { weight: 30, label: "PEDESTAL: CARCANETS" },
+        pedleft: { weight: 30, label: "PEDESTAL: HORSE STATUE" },
+        coquardbracelets: { weight: 10, label: "COQUARD BRACELETS" },
+        sodoff: { weight: 50, label: "PAINTING: SOD OFF" },
+        cooked: { weight: 50, label: "PAINTING: COOKED" },
+        crewfertility: { weight: 20, label: "CREW RM: FERTILITY STATUE", crewRoom: true },
+        blueprints: { weight: 50, label: "CREW RM: FORGO BLUEPRINTS", crewRoom: true },
+        circleback: { weight: 50, label: "CREW RM: GREAT CIRCLE BACK", crewRoom: true },
+        gemstone: { weight: 30, label: "CREW RM: PEDESTAL GEMSTONE", crewRoom: true },
+        meteorite: { weight: 30, label: "CREW RM: METEORITE FRAGMENTS", crewRoom: true },
+        algernon: { weight: 30, label: "CREW RM: VENUS D ALGERNON", crewRoom: true },
+        circlets: { weight: 10, label: "CREW RM: ART DECO CIRCLETS", crewRoom: true }
+    };
 
-document.querySelectorAll('.gold-chk').forEach(chk => {
-    chk.addEventListener('change', function() {
-        let id = this.getAttribute('data-id');
-        let card = document.getElementById('row-' + id);
-        if(card) { card.classList.toggle('gold-box-row', this.checked); }
-        updateGoldManifestTracker();
-    });
-});
-
-function updateGoldManifestTracker() {
-    let crewSize = parseInt(document.getElementById('crew-size').value);
-    let checkedBoxes = document.querySelectorAll('.gold-chk:checked');
-    let displayList = []; let grandGoldTotal = 0;
-    let multiIds = ['blueprints', 'circleback', 'gemstone', 'meteorite', 'crewfertility', 'circlets', 'algernon'];
-
-    checkedBoxes.forEach(chk => {
-        let id = chk.getAttribute('data-id');
-        let isMulti = multiIds.includes(id);
-        let isBlocked = (crewSize === 1 && isMulti);
-        let displayLabel = id.toUpperCase();
-        
-        if (isBlocked) {
-            displayList.push("<span class='hud-alert-row'>★ " + displayLabel + " [NOT POSSIBLE IN SOLO RUN]</span>");
-        } else {
-            let valInput = document.getElementById('val-' + id);
-            let cashVal = valInput ? (parseFloat(valInput.value) || parseFloat(valInput.placeholder.replace(/[^0-9]/g, '')) || 0) : 0;
-            displayList.push("★ " + displayLabel + " ($" + cashVal.toLocaleString() + ")");
-            grandGoldTotal += cashVal;
+    let timerInterval = null; let timeRemainingSeconds = 17 * 60;
+    function toggleTimer() {
+        let btn = document.getElementById('timer-toggle-btn');
+        if (timerInterval) { clearInterval(timerInterval); timerInterval = null; btn.innerText = "Start"; btn.style.backgroundColor = "var(--neon-blue)"; } 
+        else {
+            btn.innerText = "Pause"; btn.style.backgroundColor = "var(--alert-red)"; btn.style.color = "#fff";
+            timerInterval = setInterval(() => {
+                if (timeRemainingSeconds > 0) {
+                    timeRemainingSeconds--;
+                    let mins = Math.floor(timeRemainingSeconds / 60).toString().padStart(2, '0');
+                    let secs = (timeRemainingSeconds % 60).toString().padStart(2, '0');
+                    document.getElementById('time-clock').innerText = mins + ":" + secs;
+                } else { clearInterval(timerInterval); document.getElementById('time-clock').innerText = "00:00"; }
+            }, 1000);
         }
-    });
-    document.getElementById('special-list-container').innerHTML = displayList.length > 0 ? displayList.join('<br>') : "No targets flagged yet.";
-    document.getElementById('special-total-val').innerText = "$" + grandGoldTotal.toLocaleString();
-}
+    }
+    function resetTimer() { clearInterval(timerInterval); timerInterval = null; timeRemainingSeconds = 17 * 60; document.getElementById('time-clock').innerText = "17:00"; let btn = document.getElementById('timer-toggle-btn'); btn.innerText = "Start"; btn.style.backgroundColor = "var(--neon-blue)"; btn.style.color = "#000"; }
+
+    function toggleLayoutMenuDeck(e) { e.stopPropagation(); document.getElementById('layout-dropdown-menu').classList.toggle('show'); }
+    window.onclick = function() { document.getElementById('layout-dropdown-menu').classList.remove('show'); };
+
+    function setLayoutMode(mode) {
+        document.getElementById('btn-layout-desktop').classList.toggle('active', mode === 'desktop');
+        document.getElementById('btn-layout-mobile').classList.toggle('active', mode === 'mobile');
+        document.body.classList.toggle('mobile-mode', mode === 'mobile');
+    }
 </script>
 <script>
-function calculateHeistPayout() {
-    document.querySelectorAll('.loot-card').forEach(el => { el.style.border = ""; el.classList.remove('gold-box-row'); el.classList.remove('card-burned'); });
-    document.getElementById('weight-ledger-row').classList.remove('weight-warning');
-    
-    let crewSize = parseInt(document.getElementById('crew-size').value);
-    let maxCapacityPct = crewSize * 100; let availableLootItems = [];
-    let multiIds = ['blueprints', 'circleback', 'gemstone', 'meteorite', 'crewfertility', 'circlets', 'algernon'];
-
-    const numInputs = document.querySelectorAll('.loot-card input[type="number"]');
-    numInputs.forEach(input => {
-        let id = input.id.replace('val-', '');
-        let card = document.getElementById('row-' + id);
-        let val = parseFloat(input.value) || 0;
-        
-        // Auto-burn card if it's completely missing or skipped during setup calculations
-        if (val <= 0 && !input.placeholder.includes('Average Price')) {
-            if (card) card.classList.add('card-burned');
-            return;
-        }
-
-        // Live Solo Conflict State: Physically dims crew cards to 35% on matrix click
-        if (crewSize === 1 && multiIds.includes(id)) {
-            if (card) card.classList.add('card-burned');
-            return;
-        }
-
-        // Fixed Math Weight Matrix: Locks floor paintings explicitly to their true 50% bag weight
-        let paintings = ['explain', 'see', 'duchessa', 'canis', 'orange', 'chief', 'cooked', 'sawed', 'circleback', 'blueprints'];
-        let pct = id.startsWith('v') ? parseFloat(input.getAttribute('data-pct')) : (paintings.includes(id) ? 50 : (id === 'van' ? 25 : (id === 'skull' || id === 'pedright' || id === 'pedleft' || id === 'algernon' || id === 'gemstone' || id === 'meteorite' ? 30 : (id === 'egg' || id === 'downegg' || id === 'fertility' || id === 'crewfertility' ? 20 : 10))));
-        
-        if (val > 0 && pct > 0) availableLootItems.push({ id: id, label: id.toUpperCase(), value: val, weight: pct });
-    });
-
-    let scale = 10; let W = Math.round(maxCapacityPct * scale); let n = availableLootItems.length;
-    let dp = Array(n + 1).fill().map(() => Array(W + 1).fill(0));
-
-    for (let i = 1; i <= n; i++) {
-        let itemWeight = Math.round(availableLootItems[i-1].weight * scale);
-        for (let w = 0; w <= W; w++) {
-            if (itemWeight <= w) { dp[i][w] = Math.max(availableLootItems[i-1].value + dp[i-1][w - itemWeight], dp[i-1][w]); } 
-            else { dp[i][w] = dp[i-1][w]; }
-        }
+    function handleCrewLockoutUI() {
+        let crewSize = parseInt(document.getElementById('crew-size').value);
+        Object.keys(LOOT_PROPERTIES).forEach(key => {
+            if (LOOT_PROPERTIES[key].crewRoom) {
+                let card = document.getElementById('row-' + key);
+                if (card) {
+                    if (crewSize === 1) {
+                        card.classList.add('card-burned');
+                        let input = card.querySelector('input[type="number"]');
+                        if (input) input.disabled = true;
+                        let chk = card.querySelector('input[type="checkbox"]');
+                        if (chk) chk.disabled = true;
+                    } else {
+                        card.classList.remove('card-burned');
+                        let input = card.querySelector('input[type="number"]');
+                        if (input) input.disabled = false;
+                        let chk = card.querySelector('input[type="checkbox"]');
+                        if (chk) chk.disabled = false;
+                    }
+                }
+            }
+        });
+        saveCurrentState();
     }
 
-    let w = W; let selected = []; let baseTake = 0; let pctUsed = 0;
-    for (let i = n; i > 0; i--) {
-        if (dp[i][w] !== dp[i-1][w]) {
-            selected.push(availableLootItems[i-1]); baseTake += availableLootItems[i-1].value;
-            pctUsed += availableLootItems[i-1].weight; w -= Math.round(availableLootItems[i-1].weight * scale);
-        }
-    }
-
-    let lockBoxCashAdd = 0;
-    if (document.getElementById('chk-autobox').checked && pctUsed < maxCapacityPct) {
-        let boxCount = Math.floor((maxCapacityPct - pctUsed) / 5);
-        lockBoxCashAdd = boxCount * 7500; pctUsed += (boxCount * 5);
-        document.getElementById('lockbox-row').style.display = "block";
-    } else { document.getElementById('lockbox-row').style.display = "none"; }
-
-    let primInput = document.getElementById('val-primary');
-    let primVal = parseFloat(primInput.value) || 300000;
-    let finalPrim = (document.getElementById('opt-primary').value === 'keep') ? 0 : primVal;
-
-    let hardPremium = document.getElementById('chk-hard').checked ? ((baseTake + lockBoxCashAdd) * 0.10) : 0;
-    let bonuses = (document.getElementById('chk-special').checked ? 50000 : 0) + (document.getElementById('chk-elite').checked ? 150000 : 0);
-    let finalTotal = baseTake + lockBoxCashAdd + hardPremium + bonuses + finalPrim;
-
-    let htmlManifest = [];
-    selected.forEach(item => {
-        htmlManifest.push("• " + item.label + " (" + item.weight + "% Capacity)");
-        let card = document.getElementById('row-' + item.id); if(card) { card.style.border = "2px solid #00ff88"; card.style.backgroundColor = "rgba(0, 255, 136, 0.08)"; }
-    });
-    
-    if(document.getElementById('chk-autobox').checked && lockBoxCashAdd > 0) htmlManifest.push("• Auto-Filled Vault Lock Boxes");
-    if (pctUsed >= maxCapacityPct) document.getElementById('weight-ledger-row').classList.add('weight-warning');
-
-    document.getElementById('slots-total-cap').innerText = maxCapacityPct;
-    document.getElementById('slots-used').innerText = pctUsed.toFixed(0);
-    document.getElementById('loot-recommendation').innerHTML = htmlManifest.join('<br>') || "No items selected.";
-    document.getElementById('res-base').innerText = "$" + baseTake.toLocaleString();
-    document.getElementById('res-lockbox').innerText = "$" + lockBoxCashAdd.toLocaleString();
-    document.getElementById('res-hard').innerText = "$" + Math.round(hardPremium).toLocaleString();
-    document.getElementById('res-bonus').innerText = "$" + bonuses.toLocaleString();
-    document.getElementById('res-primary').innerText = "$" + finalPrim.toLocaleString();
-    document.getElementById('res-total').innerText = "$" + Math.round(finalTotal).toLocaleString();
-    document.getElementById('results-box').style.display = 'block';
-}
-</script>
-<script>
-let voiceRecognition = null;
-function toggleVoiceListening() {
-    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!window.SpeechRecognition) { alert("Speech matching not supported on this host client browser."); return; }
-    let btn = document.getElementById('voice-ptt-btn');
-    if (voiceRecognition) { voiceRecognition.stop(); return; }
-    voiceRecognition = new window.SpeechRecognition();
-    voiceRecognition.continuous = false; voiceRecognition.interimResults = false; voiceRecognition.lang = 'en-US';
-    voiceRecognition.onstart = () => { btn.classList.add('listening'); };
-    voiceRecognition.onend = () => { btn.classList.remove('listening'); voiceRecognition = null; };
-    voiceRecognition.onerror = () => { btn.classList.remove('listening'); voiceRecognition = null; };
-    voiceRecognition.onresult = (event) => {
-        let textCommand = event.results.transcript.toLowerCase();
-        
-        // Laptop Token Safe Guard: Strips whitespace gaps from spoken desktop digits
-        let rawDigits = textCommand.replace(/\s+/g, '').match(/\d+/);
-        let targetVal = 0;
-
-        if (rawDigits) {
-            targetVal = parseInt(rawDigits);
-            if (textCommand.includes('thousand') && targetVal < 1000) targetVal *= 1000;
-            else if (textCommand.includes('grand') || textCommand.includes(' k')) targetVal *= 1000;
+    function handleVanDropdownStateChange() {
+        let state = document.getElementById('state-van').value;
+        let input = document.getElementById('val-van');
+        if (state === 'override') {
+            input.disabled = false; input.style.opacity = "1"; input.style.borderColor = "var(--neon-green)"; input.value = ""; input.placeholder = "Enter Live Finale Payout";
+        } else if (state === 'average') {
+            input.disabled = true; input.style.opacity = "0.5"; input.style.borderColor = "#222"; input.value = "125000";
         } else {
-            // Textual conversion backup safety tracker
-            let textNumMap = { 'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':9,'ten':10,'eleven':11,'twelve':12,'thirteen':13,'fourteen':14,'fifteen':15,'sixteen':16,'seventeen':17,'eighteen':18,'nineteen':19,'twenty':20,'thirty':30,'forty':40,'fifty':50,'sixty':60,'seventy':70,'eighty':80,'ninety':90 };
-            let words = textCommand.split(/[\s-]+/);
-            let tempVal = 0;
-            words.forEach(w => {
-                if (textNumMap[w]) { tempVal += textNumMap[w]; }
-                else if (w === 'hundred') { tempVal *= 100; }
-                else if (w === 'thousand' || w === 'grand' || w === 'k') { targetVal += (tempVal * 1000); tempVal = 0; }
-            });
-            targetVal += tempVal;
+            input.disabled = true; input.style.opacity = "0.5"; input.style.borderColor = "#222"; input.value = "0"; input.placeholder = "($125,000 Locked to Average)";
         }
-        
-        if (targetVal < 1000 && targetVal > 0) { targetVal *= 1000; }
-        if (targetVal === 0) return;
+        saveCurrentState();
+    }
 
-        let targetId = null;
-        if (textCommand.includes('hunter')) targetId = 'vleftfront';
-        else if (textCommand.includes('friends')) targetId = 'vrightfront';
-        else if (textCommand.includes('swing')) targetId = 'vleftback';
-        else if (textCommand.includes('gouden') || textCommand.includes('hondje') || textCommand.includes('goud')) targetId = 'vrightback';
-        else if (textCommand.includes('explain')) targetId = 'explain';
-        else if (textCommand.includes('see me')) targetId = 'see';
-        else if (textCommand.includes('duchessa')) targetId = 'duchessa';
-        else if (textCommand.includes('canis')) targetId = 'canis';
-        else if (textCommand.includes('orange') || textCommand.includes('crush')) targetId = 'orange';
-        else if (textCommand.includes('chief')) targetId = 'chief';
-        else if (textCommand.includes('skull') || textCommand.includes('memento')) targetId = 'skull';
-        else if (textCommand.includes('downstairs egg')) targetId = 'downegg';
-        else if (textCommand.includes('hoops')) targetId = 'hoops';
-        else if (textCommand.includes('bracelet')) targetId = 'coquardbracelets';
-        else if (textCommand.includes('horse')) targetId = 'pedleft';
-        else if (textCommand.includes('carcanet')) targetId = 'pedright';
-        else if (textCommand.includes('upstairs egg')) targetId = 'egg';
-        else if (textCommand.includes('cooked')) targetId = 'cooked';
-        else if (textCommand.includes('sawed')) targetId = 'sawed';
-        else if (textCommand.includes('van')) targetId = 'van';
-        else if (textCommand.includes('circle back')) targetId = 'circleback';
-        else if (textCommand.includes('blueprint')) targetId = 'blueprints';
-        else if (textCommand.includes('venus') || textCommand.includes('algernon')) targetId = 'algernon';
-        else if (textCommand.includes('crew fertility')) targetId = 'crewfertility';
-        else if (textCommand.includes('circlet')) targetId = 'circlets';
-        else if (textCommand.includes('gemstone')) targetId = 'gemstone';
-        else if (textCommand.includes('meteorite')) targetId = 'meteorite';
-        else if (textCommand.includes('fertility')) targetId = 'fertility';
+    function saveCurrentState() {
+        let state = { inputs: {}, checkboxes: {}, adjustments: {} };
+        Object.keys(LOOT_PROPERTIES).forEach(key => {
+            let el = document.getElementById('val-' + key);
+            if (el) state.inputs[key] = el.value;
+            let chk = document.getElementById('chk-' + key);
+            if (chk) state.checkboxes[key] = chk.checked;
+        });
+        state.inputs['primary'] = document.getElementById('val-primary').value;
+        state.adjustments['opt-primary'] = document.getElementById('opt-primary').value;
+        state.adjustments['state-van'] = document.getElementById('state-van').value;
+        state.adjustments['chk-hard'] = document.getElementById('chk-hard').checked;
+        state.adjustments['chk-elite'] = document.getElementById('chk-elite').checked;
+        state.adjustments['crew-size'] = document.getElementById('crew-size').value;
+        localStorage.setItem('kortz_heist_matrix_state', JSON.stringify(state));
+    }
+</script>
+    // High-Density Optimized Loot Bag Matrix Calculator Core
+    function executeLootOptimization() {
+        document.querySelectorAll('.loot-card').forEach(card => {
+            card.style.border = ""; card.style.backgroundColor = ""; 
+            card.classList.remove('card-burned');
+        });
 
-        if (targetId) {
-            let inputField = document.getElementById('val-' + targetId);
-            if (inputField) {
-                inputField.value = targetVal;
-                let card = document.getElementById('row-' + targetId);
-                if (card) { card.style.borderColor = '#00ff88'; setTimeout(() => { card.style.borderColor = ''; }, 1500); }
-                updateGoldManifestTracker();
+        let crewSize = parseInt(document.getElementById('crew-size').value);
+        let maxCapacity = crewSize * 100;
+        let availablePool = [];
+        let forceIncluded = [];
+        let currentWeightAllocated = 0;
+
+        // Loop Pass 1: Parse values, apply auto-burn alerts, and capture high priority van constraints
+        Object.keys(LOOT_PROPERTIES).forEach(key => {
+            if (crewSize === 1 && LOOT_PROPERTIES[key].crewRoom) return;
+
+            let id = LOOT_PROPERTIES[key].inputId || 'val-' + key;
+            let input = document.getElementById(id);
+            if (!input) return;
+
+            let val = 0;
+            // Handle loading bay van dynamic selection choices
+            if (key === 'van') {
+                let sel = document.getElementById('sel-van-mode').value;
+                if (sel === 'none') {
+                    return;
+                } else if (sel === 'avg') {
+                    val = 125000;
+                } else {
+                    val = parseFloat(input.value) || 0;
+                }
+            } else {
+                val = parseFloat(input.value) || 0;
+            }
+
+            if (val <= 0) {
+                let card = document.getElementById('row-' + key);
+                if (card) card.classList.add('card-burned');
+                return;
+            }
+
+            let itemNode = { key: key, label: LOOT_PROPERTIES[key].label, value: val, weight: LOOT_PROPERTIES[key].weight };
+
+            if (key === 'van') {
+                forceIncluded.push(itemNode);
+                currentWeightAllocated += itemNode.weight;
+            } else {
+                availablePool.push(itemNode);
+            }
+        });
+        // Loop Pass 2: Sort remaining structural assets (Prioritizing Small Ring Cases via Value Density)
+        availablePool.sort((a, b) => {
+            let densityA = a.value / a.weight;
+            let densityB = b.value / b.weight;
+            if (densityA === densityB) return a.weight - b.weight;
+            return densityB - densityA;
+        });
+
+        let finalManifest = [...forceIncluded];
+        let remainingSpace = maxCapacity - currentWeightAllocated;
+
+        // DP Dynamic Loot Bag Solver Phase
+        if (remainingSpace > 0 && availablePool.length > 0) {
+            let scale = 10;
+            let W = Math.round(remainingSpace * scale);
+            let n = availablePool.length;
+            let dp = Array(n + 1).fill().map(() => Array(W + 1).fill(0));
+
+            for (let i = 1; i <= n; i++) {
+                let wItem = Math.round(availablePool[i - 1].weight * scale);
+                for (let w = 0; w <= W; w++) {
+                    if (wItem <= w) {
+                        dp[i][w] = Math.max(availablePool[i - 1].value + dp[i - 1][w - wItem], dp[i - 1][w]);
+                    } else {
+                        dp[i][w] = dp[i - 1][w];
+                    }
+                }
+            }
+
+            let w = W;
+            for (let i = n; i > 0; i--) {
+                if (dp[i][w] !== dp[i - 1][w]) {
+                    finalManifest.push(availablePool[i - 1]);
+                    w -= Math.round(availablePool[i - 1].weight * scale);
+                }
             }
         }
+
+        // Render compilation results onto screen viewport UI
+        let secondaryTotal = 0;
+        let totalWeightUsed = 0;
+        let recommendationHTML = [];
+
+        finalManifest.forEach(item => {
+            secondaryTotal += item.value;
+            totalWeightUsed += item.weight;
+            recommendationHTML.push(`• ${item.label} (${item.weight}% Loot Bag Space Packed)`);
+            
+            let card = document.getElementById('row-' + item.key);
+            if (card) {
+                card.style.border = "2px solid var(--neon-green)";
+                card.style.backgroundColor = "rgba(0, 255, 136, 0.08)";
+            }
+        });
+
+        let isHard = document.getElementById('chk-hard').checked;
+        let hardPremium = isHard ? (secondaryTotal * 0.10) : 0;
+        let bonusBounty = document.getElementById('chk-elite').checked ? 150000 : 0;
+        
+        let primaryInput = document.getElementById('val-primary');
+        let primaryVal = parseFloat(primaryInput.value) || 300000;
+        let primaryTake = (document.getElementById('opt-primary').value === 'keep') ? 0 : primaryVal;
+
+        let netMazeBankDeposit = secondaryTotal + hardPremium + bonusBounty + primaryTake;
+
+        document.getElementById('slots-total-cap').innerText = maxCapacity;
+        document.getElementById('slots-used').innerText = totalWeightUsed;
+        document.getElementById('loot-recommendation').innerHTML = recommendationHTML.join('<br>') || "Bag strategy clear - No loose targets qualify.";
+        document.getElementById('res-base').innerText = "$" + secondaryTotal.toLocaleString();
+        document.getElementById('res-hard').innerText = "$" + Math.round(hardPremium).toLocaleString();
+        document.getElementById('res-bonus').innerText = "$" + bonusBounty.toLocaleString();
+        document.getElementById('res-primary').innerText = "$" + primaryTake.toLocaleString();
+        document.getElementById('res-total').innerText = "$" + Math.round(netMazeBankDeposit).toLocaleString();
+        
+        document.getElementById('results-box').style.display = 'block';
+        document.getElementById('weight-ledger-row').style.color = (totalWeightUsed >= maxCapacity) ? "var(--alert-red)" : "";
+    }
+    // Adaptive Verification & End Session Flow Control
+    function triggerEndSessionSequence() {
+        document.getElementById('end-session-modal').style.display = 'flex';
+    }
+
+    function closeSessionGate(commitRun) {
+        document.getElementById('end-session-modal').style.display = 'none';
+        
+        if (commitRun) {
+            let sessionData = JSON.parse(localStorage.getItem('kortz_heist_analytics')) || { runs: 7, trackingPool: {} }; // Preloaded at Run #7 baseline
+            sessionData.runs += 1;
+            
+            Object.keys(LOOT_PROPERTIES).forEach(key => {
+                let id = LOOT_PROPERTIES[key].inputId || 'val-' + key;
+                let val = parseFloat(document.getElementById(id)?.value) || 0;
+                if (key === 'van' && document.getElementById('sel-van-mode').value === 'avg') val = 125000;
+                
+                if (val > 0) {
+                    if (!sessionData.trackingPool[key]) sessionData.trackingPool[key] = [];
+                    sessionData.trackingPool[key].push(val);
+                }
+            });
+            localStorage.setItem('kortz_heist_analytics', JSON.stringify(sessionData));
+        }
+        
+        // Wipe local active inputs to return system to baseline
+        Object.keys(LOOT_PROPERTIES).forEach(key => {
+            let id = LOOT_PROPERTIES[key].inputId || 'val-' + key;
+            let el = document.getElementById(id);
+            if (el) el.value = "";
+            let chk = document.getElementById('chk-' + key);
+            if (chk) chk.checked = false;
+        });
+        document.getElementById('val-primary').value = "";
+        document.getElementById('sel-van-mode').value = "none";
+        document.getElementById('results-box').style.display = 'none';
+        
+        toggleVanInputState();
+        saveCurrentState();
+        hydratePersistentState();
+        handleCrewLockoutUI();
+    }
+
+    function factoryResetAnalytics() {
+        if (confirm("Completely wipe historical data analytics averages and reset defaults?")) {
+            localStorage.removeItem('kortz_heist_matrix_state');
+            localStorage.removeItem('kortz_heist_analytics');
+            location.reload();
+        }
+    }
+
+    window.onload = () => {
+        hydratePersistentState();
+        handleCrewLockoutUI();
+        toggleVanInputState();
     };
-    voiceRecognition.start();
-}
-updateGoldManifestTracker();
 </script>
 </body>
 </html>
