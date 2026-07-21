@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HUDBUILD_V5_ALPHA_OFFICIAL - Heist Companion</title>
+    <title>Quartz Center Heist - Tactical Route Planner</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,27 +13,76 @@
         <div id="special-list-container">
             <h3>BUYER'S REQUEST TARGETS</h3>
             <ul id="br-items-list">
-                <li class="placeholder">No Buyer's Request items selected</li>
+                <li>Canis Hominem Edit (Painting - 50%)</li>
+                <li>Memento non Mori Skull (20%)</li>
+                <li>The Chief (Target Asset)</li>
             </ul>
-            <div id="br-status-note"></div>
+            <div id="br-status-note" class="status-optimal">🟢 READY FOR OPTIMIZATION</div>
         </div>
     </header>
 
     <main class="container">
+
+        <!-- BAG CAPACITY DISPLAY & STATUS -->
+        <section class="card capacity-card">
+            <h2>Loot Capacity Tracker</h2>
+            <div class="capacity-bar-container">
+                <div id="capacity-fill" style="width: 0%;"></div>
+            </div>
+            <p id="capacity-text">Total Bag Usage: <strong>0% / 100%</strong></p>
+        </section>
+
         <!-- VAN SELECTOR CONTROL -->
         <section class="card van-card">
             <h2>Loading Bay Van Status</h2>
-            <select id="state-van" onchange="handleVanDropdownStateChange()">
-                <option value="not-present">Not Present (0% Capacity)</option>
-                <option value="baseline" selected>Baseline (Auto 30% Loot Space)</option>
-                <option value="manual-override">Manual Override</option>
+            <select id="state-van" onchange="calculateLootTotal()">
+                <option value="none">Not Present (0% Capacity)</option>
+                <option value="baseline" selected>Baseline Van Cargo (30% Space)</option>
+                <option value="manual">Manual Override</option>
             </select>
         </section>
 
-        <!-- ROUTE ENTRY POINT SELECTOR -->
+        <!-- PRE-MISSION ROUTE STRATEGY -->
         <section class="card route-card">
-            <h2>Pre-Mission Entry Strategy</h2>
-            <p class="subtitle">Default route baseline loaded. Custom reordering available in Results Manifest below.</p>
+            <h2>Pre-Mission Strategy & Entry Point</h2>
+            <select id="entry-point">
+                <option value="stealth-roof">Roof Entrance (Stealth Sweep)</option>
+                <option value="loading-bay">Loading Bay Direct (Van Rush)</option>
+                <option value="front-doors">Main Entrance Loop</option>
+            </select>
+        </section>
+
+        <!-- LOOT SELECTION MANIFEST -->
+        <section class="card loot-selection-card">
+            <h2>Loot Selection Checklist</h2>
+            <p class="subtitle">Check off items collected to calculate capacity and optimal route order.</p>
+
+            <div class="loot-group">
+                <h3>Paintings (50% Space Each)</h3>
+                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="Canis Hominem Edit" onchange="calculateLootTotal()"> Canis Hominem Edit</label><br>
+                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="The Hunter Becomes the Hunted" onchange="calculateLootTotal()"> The Hunter Becomes the Hunted</label><br>
+                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="Het Gouden Hondje" onchange="calculateLootTotal()"> Het Gouden Hondje</label><br>
+                <label><input type="checkbox" class="loot-item" data-weight="50" data-name="Don't Forgo Blueprints" onchange="calculateLootTotal()"> Don't Forgo Blueprints</label>
+            </div>
+
+            <div class="loot-group">
+                <h3>Medium Display Items (20% Space Each)</h3>
+                <label><input type="checkbox" class="loot-item" data-weight="20" data-name="Memento non Mori Skull" onchange="calculateLootTotal()"> Memento non Mori Skull</label><br>
+                <label><input type="checkbox" class="loot-item" data-weight="20" data-name="Middle Floor Fertility Statue" onchange="calculateLootTotal()"> Middle Floor Fertility Statue</label><br>
+                <label><input type="checkbox" class="loot-item" data-weight="20" data-name="Upstairs Decorative Egg" onchange="calculateLootTotal()"> Upstairs Decorative Egg</label>
+            </div>
+
+            <div class="loot-group">
+                <h3>Jewelry & Minor Collectibles (10% Space Each)</h3>
+                <label><input type="checkbox" class="loot-item" data-weight="10" data-name="Byzantine Hoops" onchange="calculateLootTotal()"> Byzantine Hoops</label><br>
+                <label><input type="checkbox" class="loot-item" data-weight="10" data-name="Pedestal: Carcanets (Necklace)" onchange="calculateLootTotal()"> Pedestal: Carcanets (Necklace)</label>
+            </div>
+
+            <div class="loot-group">
+                <h3>Lockboxes & Small Items (5% Space Each)</h3>
+                <label><input type="checkbox" class="loot-item" data-weight="5" data-name="Vault Lockbox Alpha" onchange="calculateLootTotal()"> Vault Lockbox Alpha</label><br>
+                <label><input type="checkbox" class="loot-item" data-weight="5" data-name="Vault Lockbox Beta" onchange="calculateLootTotal()"> Vault Lockbox Beta</label>
+            </div>
         </section>
 
         <!-- RESULTS MANIFEST SECTION -->
@@ -41,16 +90,15 @@
             <h2>TACTICAL RESULTS MANIFEST</h2>
             <button id="btn-execute" onclick="executeMasterMathMatrix()">⚡ EXECUTE MASTER MATH MATRIX</button>
 
-            <div id="advisory-engine-output"></div>
+            <div id="advisory-engine-output" style="margin-top: 15px;"></div>
 
             <!-- ZONE-BY-ZONE MANIFEST CONTAINER -->
             <div id="zone-manifest-container">
-                <!-- Zone cards with ▲/▼ reorder controls will dynamically render here -->
+                <!-- Zone cards with ▲/▼ reorder controls will render here -->
             </div>
         </section>
     </main>
 
-    <!-- LINK EXTERNAL SCRIPT -->
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
 </body>
 </html>
