@@ -8,18 +8,20 @@
 </head>
 <body>
 
-<div class="hud-wrapper">
-    <div class="hud-left">
-        <h3>📋 Buyer's Request</h3>
-        <div id="special-list-container">No targets flagged yet.</div>
-        <div class="special-total-row">Total Request: <span id="special-total-val">$0</span></div>
+<!-- Consolidated Top HUD Bar (v5.0) -->
+<div class="hud-top-bar">
+    <div class="hud-panel-left">
+        <button class="hud-btn" onclick="window.scrollTo(0, document.body.scrollHeight)">↓ Results</button>
     </div>
-    <div class="hud-right">
-        <h3>⏱️ Speedrun Timer</h3>
+    <div class="hud-panel-center">
+        <strong>📋 Buyer Request Tracker</strong>
+        <div id="special-list-container">No Buyer Targets Selected</div>
+        <div style="color:#ffaa00; font-weight:bold; margin-top:2px;">Target Value: <span id="special-total-val">$0</span></div>
+    </div>
+    <div class="hud-panel-right">
         <div class="timer-display" id="time-clock">17:00</div>
         <button class="timer-btn" onclick="toggleTimer()" id="timer-toggle-btn">Start</button>
-        <button class="timer-btn" onclick="resetTimer()" style="position:static;width:auto;padding:4px 8px;margin:2px;">Reset</button>
-        <div class="timer-note">!! MAKE SURE TO PAUSE DURING CUTSCENES, THEY DON'T COUNT TOWARDS YOUR OVERALL TIME !!</div>
+        <button class="timer-btn" onclick="resetTimer()">Reset</button>
     </div>
 </div>
 
@@ -114,7 +116,7 @@
             </div>
         </div>
         <div class="loot-card" id="row-canis">
-            <div class="item-name">Painting: Canis Hominem</div>
+            <div class="item-name">Painting: Canis Hominem Edit</div>
             <input type="number" id="val-canis" placeholder="(Average Price: $113,000)" tabindex="8">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="canis" style="margin-left:5px; vertical-align:middle;"></span>
@@ -139,11 +141,11 @@
             </div>
         </div>
 
-        <div class="loot-card" id="row-duchessa">
-            <div class="item-name">Painting: La Duchessa</div>
-            <input type="number" id="val-duchessa" placeholder="(Average Price: $114,000)" tabindex="11">
+        <div class="loot-card" id="row-duchesse">
+            <div class="item-name">Painting: La Duchesse</div>
+            <input type="number" id="val-duchesse" placeholder="(Average Price: $114,000)" tabindex="11">
             <div class="card-action-row">
-                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="duchessa" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="duchesse" style="margin-left:5px; vertical-align:middle;"></span>
                 <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
             </div>
         </div>
@@ -303,14 +305,12 @@
     </div>
 
     <h2>6. Multiplayer Crew Keycard Room Assets</h2>
-    <div class="note" style="color:#ff3b30;">Open for data collection by default while scouting. Validated dynamically based on active capacities chosen below.</div>
-    
     <div class="card-grid">
         <div class="col-header">Left Column Room Assets</div>
         <div class="col-header">Right Column Room Assets</div>
 
         <div class="loot-card" id="row-circleback">
-            <div class="item-name">Painting: Great Circle Back <span class="lock-badge" id="badge-circleback" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <div class="item-name">Painting: Great Circle Back</div>
             <input type="number" id="val-circleback" placeholder="(Average Price: $154,000)" tabindex="28">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circleback" style="margin-left:5px; vertical-align:middle;"></span>
@@ -318,7 +318,7 @@
             </div>
         </div>
         <div class="loot-card" id="row-blueprints">
-            <div class="item-name">Painting: Don't Forgo Blueprints <span class="lock-badge" id="badge-blueprints" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <div class="item-name">Painting: Don't Forgo Blueprints</div>
             <input type="number" id="val-blueprints" placeholder="(Average Price: $152,500)" tabindex="29">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="blueprints" style="margin-left:5px; vertical-align:middle;"></span>
@@ -327,7 +327,7 @@
         </div>
 
         <div class="loot-card" id="row-algernon">
-            <div class="item-name">Pedestal: Venus D'Algernon <span class="lock-badge" id="badge-algernon" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <div class="item-name">Pedestal: Venus D'Algernon</div>
             <input type="number" id="val-algernon" placeholder="(Average Price: $117,000)" tabindex="30">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="algernon" style="margin-left:5px; vertical-align:middle;"></span>
@@ -335,7 +335,7 @@
             </div>
         </div>
         <div class="loot-card" id="row-crewfertility">
-            <div class="item-name">Fertility Statue <span class="lock-badge" id="badge-crewfertility" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <div class="item-name">Fertility Statue</div>
             <input type="number" id="val-crewfertility" placeholder="(Average Price: $84,000)" tabindex="31">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="crewfertility" style="margin-left:5px; vertical-align:middle;"></span>
@@ -344,7 +344,7 @@
         </div>
 
         <div class="loot-card" id="row-circlets">
-            <div class="item-name">Art Deco Circlets <span class="lock-badge" id="badge-circlets" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <div class="item-name">Art Deco Circlets</div>
             <input type="number" id="val-circlets" placeholder="(Average Price: $46,000)" tabindex="32">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circlets" style="margin-left:5px; vertical-align:middle;"></span>
@@ -352,7 +352,7 @@
             </div>
         </div>
         <div class="loot-card" id="row-gemstone">
-            <div class="item-name">Pedestal: Gemstone <span class="lock-badge" id="badge-gemstone" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <div class="item-name">Pedestal: Gemstone</div>
             <input type="number" id="val-gemstone" placeholder="(Average Price: $117,000)" tabindex="33">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="gemstone" style="margin-left:5px; vertical-align:middle;"></span>
@@ -362,7 +362,7 @@
         
         <div style="pointer-events:none; visibility:hidden;"></div>
         <div class="loot-card" id="row-meteorite">
-            <div class="item-name">Meteorite Fragments <span class="lock-badge" id="badge-meteorite" style="background:#00ff88;color:#000;">OPEN</span></div>
+            <div class="item-name">Meteorite Fragments</div>
             <input type="number" id="val-meteorite" placeholder="(Average Price: $87,000)">
             <div class="card-action-row">
                 <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="meteorite" style="margin-left:5px; vertical-align:middle;"></span>
@@ -393,7 +393,7 @@
 
     <div id="results-box" style="display:none;background-color:#14221a;padding:20px;border-radius:8px;margin-top:25px;border:1px solid #00ff88;">
         <h3 style="margin-top:0;color:#00ff88;text-transform:uppercase;font-size:14px;text-align:center;">Tactical Manifest & Optimized Loadout</h3>
-        <p style="font-size:13px;font-weight:bold;color:#aaaaf0;margin-bottom:5px;">Green-Highlighted Targets to Bag:</p>
+        <p style="font-size:13px;font-weight:bold;color:#aaaaf0;margin-bottom:5px;">Green-Highlighted Targets to Bag (Use ▲ ▼ to reorder route):</p>
         <div id="loot-recommendation" style="color:#fff;line-height:1.5;font-size:13px;"></div>
         <p style="margin-top:12px;font-size:13px;" id="weight-ledger-row"><strong>Combined Capacity:</strong> <span id="slots-used">0</span>% / <span id="slots-total-cap">100</span>% Bag Space Packed</p>
         <hr style="border:0;border-top:1px solid #233a2a;margin:12px 0;">
