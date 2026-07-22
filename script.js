@@ -63,7 +63,7 @@ function updateGoldManifestTracker() {
         let displayLabel = id.toUpperCase();
         
         if (isBlocked) {
-            displayList.push("<span class='hud-alert-row'>★ " + displayLabel + " [NOT POSSIBLE IN SOLO RUN]</span>");
+            displayList.push("<span style='color:#ff3b30;text-decoration:line-through;'>★ " + displayLabel + " [SOLO BLOCKED]</span>");
         } else {
             let valInput = document.getElementById('val-' + id);
             let cashVal = valInput ? (parseFloat(valInput.value) || parseFloat(valInput.placeholder.replace(/[^0-9]/g, '')) || 0) : 0;
@@ -73,9 +73,18 @@ function updateGoldManifestTracker() {
     });
     
     let container = document.getElementById('special-list-container');
-    if (container) container.innerHTML = displayList.length > 0 ? displayList.join('<br>') : "No targets flagged yet.";
+    if (container) container.innerHTML = displayList.length > 0 ? displayList.join(' | ') : "No Buyer Targets Selected";
     let totalVal = document.getElementById('special-total-val');
     if (totalVal) totalVal.innerText = "$" + grandGoldTotal.toLocaleString();
+}
+
+function moveManifestItem(btn, direction) {
+    let item = btn.closest('.manifest-item');
+    if (direction === 'up' && item.previousElementSibling) {
+        item.parentNode.insertBefore(item, item.previousElementSibling);
+    } else if (direction === 'down' && item.nextElementSibling) {
+        item.parentNode.insertBefore(item.nextElementSibling, item);
+    }
 }
 
 function calculateHeistPayout() {
@@ -106,7 +115,7 @@ function calculateHeistPayout() {
             return;
         }
 
-        let paintings = ['explain', 'see', 'duchessa', 'canis', 'orange', 'chief', 'cooked', 'sawed', 'circleback', 'blueprints'];
+        let paintings = ['explain', 'see', 'duchesse', 'canis', 'orange', 'chief', 'cooked', 'sawed', 'circleback', 'blueprints'];
         let pct = id.startsWith('v') ? parseFloat(input.getAttribute('data-pct')) : (paintings.includes(id) ? 50 : (id === 'van' ? 25 : (id === 'skull' || id === 'pedright' || id === 'pedleft' || id === 'algernon' || id === 'gemstone' || id === 'meteorite' ? 30 : (id === 'egg' || id === 'downegg' || id === 'fertility' || id === 'crewfertility' ? 20 : 10))));
         
         if (val > 0 && pct > 0) availableLootItems.push({ id: id, label: id.toUpperCase(), value: val, weight: pct });
@@ -161,7 +170,15 @@ function calculateHeistPayout() {
 
     let htmlManifest = [];
     selected.forEach(item => {
-        htmlManifest.push("• " + item.label + " (" + item.weight + "% Capacity)");
+        htmlManifest.push(`
+            <div class="manifest-item">
+                <span>• ${item.label} (${item.weight}% Capacity)</span>
+                <div class="manifest-controls">
+                    <button onclick="moveManifestItem(this, 'up')">▲</button>
+                    <button onclick="moveManifestItem(this, 'down')">▼</button>
+                </div>
+            </div>
+        `);
         let card = document.getElementById('row-' + item.id); 
         if(card) { 
             card.style.border = "2px solid #00ff88"; 
@@ -169,11 +186,21 @@ function calculateHeistPayout() {
         }
     });
     
-    if(document.getElementById('chk-autobox').checked && lockBoxCashAdd > 0) htmlManifest.push("• Auto-Filled Vault Lock Boxes");
+    if(document.getElementById('chk-autobox').checked && lockBoxCashAdd > 0) {
+        htmlManifest.push(`
+            <div class="manifest-item">
+                <span>• Auto-Filled Vault Lock Boxes</span>
+                <div class="manifest-controls">
+                    <button onclick="moveManifestItem(this, 'up')">▲</button>
+                    <button onclick="moveManifestItem(this, 'down')">▼</button>
+                </div>
+            </div>
+        `);
+    }
 
     document.getElementById('slots-total-cap').innerText = maxCapacityPct;
     document.getElementById('slots-used').innerText = pctUsed.toFixed(0);
-    document.getElementById('loot-recommendation').innerHTML = htmlManifest.join('<br>') || "No items selected.";
+    document.getElementById('loot-recommendation').innerHTML = htmlManifest.join('') || "No items selected.";
     document.getElementById('res-base').innerText = "$" + baseTake.toLocaleString();
     document.getElementById('res-lockbox').innerText = "$" + lockBoxCashAdd.toLocaleString();
     document.getElementById('res-hard').innerText = "$" + Math.round(hardPremium).toLocaleString();
@@ -219,7 +246,7 @@ function toggleVoiceListening() {
         else if (textCommand.includes('gouden') || textCommand.includes('hondje')) targetId = 'vrightback';
         else if (textCommand.includes('explain')) targetId = 'explain';
         else if (textCommand.includes('see me')) targetId = 'see';
-        else if (textCommand.includes('duchessa')) targetId = 'duchessa';
+        else if (textCommand.includes('duchesse')) targetId = 'duchesse';
         else if (textCommand.includes('canis')) targetId = 'canis';
         else if (textCommand.includes('orange')) targetId = 'orange';
         else if (textCommand.includes('chief')) targetId = 'chief';
