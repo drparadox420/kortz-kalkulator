@@ -1,247 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quartz Center Heist Loot Calculator</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kortz Center Heist Master Matrix</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Sticky Top HUD Bar -->
-  <header class="sticky-hud">
-    <div class="hud-title">Quartz Center Scope-Out</div>
-    <div class="hud-stats">
-      <span>Total Yield: <strong id="hud-total">$0</strong></span>
-      <span>Bags: <strong id="hud-bags">0%</strong></span>
-      <button class="hud-btn" onclick="scrollToManifest()">↓ Results</button>
-      <button class="hud-btn danger-btn" onclick="openEndSessionModal()">End Run Session</button>
+<!-- Consolidated Top HUD Bar (v5.0) -->
+<div class="hud-top-bar">
+    <div class="hud-panel-left">
+        <button class="hud-btn" onclick="window.scrollTo(0, document.body.scrollHeight)">↓ Results</button>
     </div>
-  </header>
+    <div class="hud-panel-center">
+        <strong>📋 Buyer Request Tracker</strong>
+        <div id="special-list-container">No Buyer Targets Selected</div>
+        <div style="color:#ffaa00; font-weight:bold; margin-top:2px;">Target Value: <span id="special-total-val">$0</span></div>
+    </div>
+    <div class="hud-panel-right">
+        <div class="timer-display" id="time-clock">17:00</div>
+        <button class="timer-btn" onclick="toggleTimer()" id="timer-toggle-btn">Start</button>
+        <button class="timer-btn" onclick="resetTimer()">Reset</button>
+    </div>
+</div>
 
-  <main class="container">
+<div class="container">
+    <h1>Kortz Center Heist Master Matrix</h1>
+    <div class="subtitle">Custom Tactical Route Planner for Solo & Multi-Crew Runs</div>
+
+    <div class="centered-card-wrapper">
+        <div class="top-panel-card">
+            <label for="val-primary">($) Primary Target ($)</label>
+            <input type="number" id="val-primary" placeholder="(Average Price: $300,000)" tabindex="1">
+            <label for="opt-primary" style="margin-top:5px;">Sell / Keep</label>
+            <select id="opt-primary" style="text-align-last: center;">
+                <option value="sell">Sell Target</option>
+                <option value="keep">Keep Target</option>
+            </select>
+        </div>
+    </div>
+
+    <h2>1. Vault Room Locations</h2>
+    <div class="note">Perspective Matrix: Staring directly forward at primary target.</div>
     
-    <!-- Setup Controls -->
-    <div class="setup-bar">
-      <div class="input-group">
-        <label for="crew-size">Crew Size</label>
-        <select id="crew-size" onchange="updateCalculations()">
-          <option value="1">1 (Solo Run)</option>
-          <option value="2">2 Players</option>
-          <option value="3">3 Players</option>
-          <option value="4">4 Players</option>
-        </select>
-      </div>
-    </div>
+    <div class="card-grid">
+        <div class="col-header">Left Side Vault Assets</div>
+        <div class="col-header">Right Side Vault Assets</div>
 
-    <!-- 1. Primary Target -->
-    <div class="section-title">Primary Target</div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header">
-          <span class="card-title">Primary Target Safe Yield</span>
-          <span class="card-index">#1</span>
+        <!-- Left Front Row -->
+        <div class="loot-card" id="row-vleftfront">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">FRONT ROW</div>
+            <div class="item-name">Painting: The Hunter Becomes the Hunted</div>
+            <input type="number" id="val-vleftfront" placeholder="(Average Price: $82,000)" data-pct="50" tabindex="2">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vleftfront" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
         </div>
-        <input type="number" id="item-1" class="price-input" tabindex="1" placeholder="" oninput="updateCalculations()">
-      </div>
-    </div>
-
-    <!-- 2. Middle Level: Main Entrance Sweep -->
-    <div class="section-title">Middle Level: Main Entrance Sweep</div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: Canis Hominem Edit</span><span class="card-index">#2</span></div>
-        <input type="number" id="item-2" class="price-input" tabindex="2" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: Orange Crush</span><span class="card-index">#3</span></div>
-        <input type="number" id="item-3" class="price-input" tabindex="3" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Pharaonic Bands (Far Case)</span><span class="card-index">#4</span></div>
-        <input type="number" id="item-4" class="price-input" tabindex="4" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: Explain Yourself</span><span class="card-index">#5</span></div>
-        <input type="number" id="item-5" class="price-input" tabindex="5" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: La Duchesse</span><span class="card-index">#6</span></div>
-        <input type="number" id="item-6" class="price-input" tabindex="6" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-    </div>
-
-    <!-- 3. Middle Level: Windows & Staircase Core -->
-    <div class="section-title">Middle Level: Windows & Staircase Core</div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: Do You See Me?</span><span class="card-index">#7</span></div>
-        <input type="number" id="item-7" class="price-input" tabindex="7" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Coquard Rings (Outside Wall)</span><span class="card-index">#8</span></div>
-        <input type="number" id="item-8" class="price-input" tabindex="8" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Middle Floor Fertility Statue</span><span class="card-index">#9</span></div>
-        <input type="number" id="item-9" class="price-input" tabindex="9" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Antique Bands (Right Case)</span><span class="card-index">#10</span></div>
-        <input type="number" id="item-10" class="price-input" tabindex="10" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Art Deco Rings (Left Case)</span><span class="card-index">#11</span></div>
-        <input type="number" id="item-11" class="price-input" tabindex="11" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Antique Rings (Security Door)</span><span class="card-index">#12</span></div>
-        <input type="number" id="item-12" class="price-input" tabindex="12" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: The Chief</span><span class="card-index">#13</span></div>
-        <input type="number" id="item-13" class="price-input" tabindex="13" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-    </div>
-
-    <!-- 4. Vault Room Security Monitor Loops -->
-    <div class="section-title">Vault Room Security Monitor Loops</div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header"><span class="card-title">Vault LB: Swing Set</span><span class="card-index">#14</span></div>
-        <input type="number" id="item-14" class="price-input" tabindex="14" placeholder="$220,000 – $260,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Vault LF: The Hunter</span><span class="card-index">#15</span></div>
-        <input type="number" id="item-15" class="price-input" tabindex="15" placeholder="$220,000 – $260,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Vault RF: With Friends</span><span class="card-index">#16</span></div>
-        <input type="number" id="item-16" class="price-input" tabindex="16" placeholder="$220,000 – $260,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Vault RB: Het Gouden Hondje</span><span class="card-index">#17</span></div>
-        <input type="number" id="item-17" class="price-input" tabindex="17" placeholder="$220,000 – $260,000" oninput="updateCalculations()">
-      </div>
-    </div>
-
-    <!-- 5. Tactical Loading Area -->
-    <div class="section-title">Tactical Loading Area</div>
-    <div class="grid">
-      <div class="card card-purple">
-        <div class="card-header">
-          <span class="card-title">Loading Bay Van Cargo</span>
-          <span class="badge">HIGH PRIORITY</span>
+        <!-- Right Front Row -->
+        <div class="loot-card" id="row-vrightfront">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">FRONT ROW</div>
+            <div class="item-name">Painting: With Friends Like These</div>
+            <input type="number" id="val-vrightfront" placeholder="(Average Price: $82,000)" data-pct="50" tabindex="3">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vrightfront" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
         </div>
-        <select id="item-van-state" class="select-input" onchange="updateCalculations()">
-          <option value="none">Asset Not Present</option>
-          <option value="default">Use Standard Average ($125,000)</option>
-          <option value="custom">Manual Price Input</option>
+        <!-- Left Back Row -->
+        <div class="loot-card" id="row-vleftback">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">BACK ROW</div>
+            <div class="item-name">Painting: Swing Set Study Number LXiX</div>
+            <input type="number" id="val-vleftback" placeholder="(Average Price: $85,000)" data-pct="50" tabindex="4">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vleftback" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <!-- Right Back Row -->
+        <div class="loot-card" id="row-vrightback">
+            <div style="color:#00ff88; font-size:11px; font-weight:bold;">BACK ROW</div>
+            <div class="item-name">Painting: Het Gouden Hondje</div>
+            <input type="number" id="val-vrightback" placeholder="(Average Price: $81,000)" data-pct="50" tabindex="5">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="vrightback" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>2. Loading Bay</h2>
+    <div class="loot-card" id="row-van" style="margin-bottom:20px;">
+        <div class="item-name">Loading Bay Van</div>
+        <input type="number" id="val-van" placeholder="(Average Price: $130,000)" tabindex="6">
+        <div class="card-action-row">
+            <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="van" style="margin-left:5px; vertical-align:middle;"></span>
+            <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 25%</span>
+        </div>
+    </div>
+
+    <h2>3. Middle Level Floor Assets</h2>
+    <div class="note">Perspective Matrix: When entering through the front entrance.</div>
+    
+    <div class="card-grid">
+        <div class="col-header">Left Side Assets</div>
+        <div class="col-header">Right Side Assets</div>
+
+        <div class="loot-card" id="row-explain">
+            <div class="item-name">Painting: Explain Yourself</div>
+            <input type="number" id="val-explain" placeholder="(Average Price: $114,000)" tabindex="7">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="explain" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-canis">
+            <div class="item-name">Painting: Canis Hominem Edit</div>
+            <input type="number" id="val-canis" placeholder="(Average Price: $113,000)" tabindex="8">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="canis" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-see">
+            <div class="item-name">Painting: Do You See Me?</div>
+            <input type="number" id="val-see" placeholder="(Average Price: $110,000)" tabindex="9">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="see" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-orange">
+            <div class="item-name">Painting: Orange Crush</div>
+            <input type="number" id="val-orange" placeholder="(Average Price: $112,000)" tabindex="10">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="orange" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-duchesse">
+            <div class="item-name">Painting: La Duchesse</div>
+            <input type="number" id="val-duchesse" placeholder="(Average Price: $114,000)" tabindex="11">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="duchesse" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-chief">
+            <div class="item-name">Painting: The Chief</div>
+            <input type="number" id="val-chief" placeholder="(Average Price: $110,000)" tabindex="12">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="chief" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-coquardrings">
+            <div class="item-name">Coquard Rings (Outside)</div>
+            <input type="number" id="val-coquardrings" placeholder="(Average Price: $30,500)" tabindex="13">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="coquardrings" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-antiquerings">
+            <div class="item-name">Antique Rings (Security)</div>
+            <input type="number" id="val-antiquerings" placeholder="(Average Price: $33,000)" tabindex="14">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="antiquerings" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-pharaonic">
+            <div class="item-name">Pharaonic Bands (Far)</div>
+            <input type="number" id="val-pharaonic" placeholder="(Average Price: $31,000)" tabindex="15">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pharaonic" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-artdecorings">
+            <div class="item-name">Art Deco Rings (Left)</div>
+            <input type="number" id="val-artdecorings" placeholder="(Average Price: $33,000)" tabindex="16">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="artdecorings" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-antiquebands">
+            <div class="item-name">Antique Bands (Right)</div>
+            <input type="number" id="val-antiquebands" placeholder="(Average Price: $32,500)" tabindex="17">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="antiquebands" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="centered-card-wrapper">
+        <div class="loot-card" id="row-fertility" style="width: 100%; max-width: 510px;">
+            <div class="item-name">Middle Floor Fertility Statue (Near Stairs)</div>
+            <input type="number" id="val-fertility" placeholder="(Average Price: $55,000)" tabindex="18">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="fertility" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>4. Downstairs Level (Elevator Tower Area)</h2>
+    <div class="card-grid-3">
+        <div class="loot-card" id="row-skull">
+            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">LEFT ENCLOSURE</div>
+            <div class="item-name">Pedestal: Memento non Mori Skull</div>
+            <input type="number" id="val-skull" placeholder="(Average Price: $88,000)" tabindex="19">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="skull" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-downegg">
+            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">MIDDLE ENCLOSURE</div>
+            <div class="item-name">Downstairs Decorative Egg</div>
+            <input type="number" id="val-downegg" placeholder="(Average Price: $58,000)" tabindex="20">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="downegg" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-hoops">
+            <div style="color:#00e1ff; font-size:11px; font-weight:bold;">RIGHT ENCLOSURE</div>
+            <div class="item-name">Byzantine Hoops</div>
+            <input type="number" id="val-hoops" placeholder="(Average Price: $33,000)" tabindex="21">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="hoops" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>5. Upstairs Level Floor Assets</h2>
+    <div class="card-grid">
+        <div class="col-header">Back Wing (Paintings)</div>
+        <div class="col-header">Front Wing (Display Cases)</div>
+
+        <div class="loot-card" id="row-cooked">
+            <div class="item-name">Painting: Cooked</div>
+            <input type="number" id="val-cooked" placeholder="(Average Price: $117,000)" tabindex="22">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="cooked" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-coquardbracelets">
+            <div class="item-name">Coquard Bracelets</div>
+            <input type="number" id="val-coquardbracelets" placeholder="(Average Price: $31,000)" tabindex="23">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="coquardbracelets" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-sawed">
+            <div class="item-name">Painting: Sawed Off</div>
+            <input type="number" id="val-sawed" placeholder="(Average Price: $112,000)" tabindex="24">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="sawed" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-pedleft">
+            <div class="item-name">Pedestal: Horse Statue (Left Case)</div>
+            <input type="number" id="val-pedleft" placeholder="(Average Price: $89,000)" tabindex="25">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pedleft" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-pedright">
+            <div class="item-name">Pedestal: Carcanets (Right Case)</div>
+            <input type="number" id="val-pedright" placeholder="(Average Price: $90,000)" tabindex="26">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="pedright" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-egg">
+            <div class="item-name">Upstairs Decorative Egg</div>
+            <input type="number" id="val-egg" placeholder="(Average Price: $57,000)" tabindex="27">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="egg" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>6. Multiplayer Crew Keycard Room Assets</h2>
+    <div class="card-grid">
+        <div class="col-header">Left Column Room Assets</div>
+        <div class="col-header">Right Column Room Assets</div>
+
+        <div class="loot-card" id="row-circleback">
+            <div class="item-name">Painting: Great Circle Back</div>
+            <input type="number" id="val-circleback" placeholder="(Average Price: $154,000)" tabindex="28">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circleback" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-blueprints">
+            <div class="item-name">Painting: Don't Forgo Blueprints</div>
+            <input type="number" id="val-blueprints" placeholder="(Average Price: $152,500)" tabindex="29">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="blueprints" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 50%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-algernon">
+            <div class="item-name">Pedestal: Venus D'Algernon</div>
+            <input type="number" id="val-algernon" placeholder="(Average Price: $117,000)" tabindex="30">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="algernon" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-crewfertility">
+            <div class="item-name">Fertility Statue</div>
+            <input type="number" id="val-crewfertility" placeholder="(Average Price: $84,000)" tabindex="31">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="crewfertility" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 20%</span>
+            </div>
+        </div>
+
+        <div class="loot-card" id="row-circlets">
+            <div class="item-name">Art Deco Circlets</div>
+            <input type="number" id="val-circlets" placeholder="(Average Price: $46,000)" tabindex="32">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="circlets" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 10%</span>
+            </div>
+        </div>
+        <div class="loot-card" id="row-gemstone">
+            <div class="item-name">Pedestal: Gemstone</div>
+            <input type="number" id="val-gemstone" placeholder="(Average Price: $117,000)" tabindex="33">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="gemstone" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+        
+        <div style="pointer-events:none; visibility:hidden;"></div>
+        <div class="loot-card" id="row-meteorite">
+            <div class="item-name">Meteorite Fragments</div>
+            <input type="number" id="val-meteorite" placeholder="(Average Price: $87,000)">
+            <div class="card-action-row">
+                <span style="color:#ffaa00; font-size:11px; font-weight:bold;">BR:<input type="checkbox" class="gold-chk" data-id="meteorite" style="margin-left:5px; vertical-align:middle;"></span>
+                <span style="color:#00e1ff; font-size:11px; font-weight:bold;">Weight: 30%</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>7. Mission Adjustments & Milestone Payouts</h2>
+    <div style="background-color:#1a1a26;padding:15px;border-radius:8px;display:flex;flex-direction:column;gap:10px;margin-bottom:15px;border:1px solid #2d2d3f;">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-hard" checked style="width:16px;height:16px;margin:0;"> Hard Mode Active (+10% on bag items)</label>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-special" style="width:16px;height:16px;margin:0;"> [BONUS] Prioritize & Complete Buyer's Request Manifest (+$50,000)</label>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#fff;font-size:13px;text-align:left;"><input type="checkbox" id="chk-elite" style="width:16px;height:16px;margin:0;"> Elite Challenge Completed (+$150,000 Flat)</label>
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#ffaa00;font-weight:bold;font-size:13px;text-align:left;"><input type="checkbox" id="chk-autobox" style="width:16px;height:16px;margin:0;"> Fill remaining space with Lock Boxes ($7,500 per 5% capacity slot)</label>
+    </div>
+
+    <div style="background-color:#111116; padding:12px; border-radius:6px; border:1px solid #363654; margin-bottom:10px; display:flex; flex-direction:column; gap:6px; text-align:center;">
+        <label for="crew-size" style="color:#00e1ff; font-weight:bold; font-size:13px;">CHOOSE ACTIVE TEAM CAPACITY FOR MATRIX SPLIT:</label>
+        <select id="crew-size" style="font-weight:bold; border-color:#00ff88;" onchange="updateGoldManifestTracker()">
+            <option value="1">Solo Run (100% Bag Capacity)</option>
+            <option value="2">2 Players (200% Bag Capacity)</option>
+            <option value="3">3 Players (300% Bag Capacity)</option>
+            <option value="4">4 Players (400% Bag Capacity)</option>
         </select>
-        <input type="number" id="item-van-custom" class="price-input" style="display:none;" placeholder="$100,000 – $150,000" oninput="updateCalculations()">
-      </div>
     </div>
 
-    <!-- 6. Downstairs Level -->
-    <div class="section-title">Downstairs Level (Elevator Tower Row)</div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header"><span class="card-title">Memento non Mori Skull</span><span class="card-index">#18</span></div>
-        <input type="number" id="item-18" class="price-input" tabindex="18" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Downstairs Decorative Egg</span><span class="card-index">#19</span></div>
-        <input type="number" id="item-19" class="price-input" tabindex="19" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Byzantine Hoops</span><span class="card-index">#20</span></div>
-        <input type="number" id="item-20" class="price-input" tabindex="20" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-    </div>
+    <button class="btn-calc" onclick="calculateHeistPayout()">Execute Master Math Matrix</button>
 
-    <!-- 7. Upstairs Level Floor Assets -->
-    <div class="section-title">Upstairs Level Floor Assets</div>
-    <div class="grid">
-      <div class="card">
-        <div class="card-header"><span class="card-title">Upstairs Decorative Egg</span><span class="card-index">#21</span></div>
-        <input type="number" id="item-21" class="price-input" tabindex="21" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Pedestal: Carcanets (Necklace)</span><span class="card-index">#22</span></div>
-        <input type="number" id="item-22" class="price-input" tabindex="22" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Pedestal: Horse Statue</span><span class="card-index">#23</span></div>
-        <input type="number" id="item-23" class="price-input" tabindex="23" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Coquard Bracelets</span><span class="card-index">#24</span></div>
-        <input type="number" id="item-24" class="price-input" tabindex="24" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: Sod Off</span><span class="card-index">#25</span></div>
-        <input type="number" id="item-25" class="price-input" tabindex="25" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Painting: Cooked</span><span class="card-index">#26</span></div>
-        <input type="number" id="item-26" class="price-input" tabindex="26" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
+    <div id="results-box" style="display:none;background-color:#14221a;padding:20px;border-radius:8px;margin-top:25px;border:1px solid #00ff88;">
+        <h3 style="margin-top:0;color:#00ff88;text-transform:uppercase;font-size:14px;text-align:center;">Tactical Manifest & Optimized Loadout</h3>
+        <p style="font-size:13px;font-weight:bold;color:#aaaaf0;margin-bottom:5px;">Green-Highlighted Targets to Bag (Use ▲ ▼ to reorder route):</p>
+        <div id="loot-recommendation" style="color:#fff;line-height:1.5;font-size:13px;"></div>
+        <p style="margin-top:12px;font-size:13px;" id="weight-ledger-row"><strong>Combined Capacity:</strong> <span id="slots-used">0</span>% / <span id="slots-total-cap">100</span>% Bag Space Packed</p>
+        <hr style="border:0;border-top:1px solid #233a2a;margin:12px 0;">
+        <div style="display:flex;flex-direction:column;gap:6px;font-size:13px;color:#bbb;">
+            <div>Base Secondary Value: <span id="res-base" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+            <div id="lockbox-row" style="display:none;color:#ffaa00;">Auto-Drilled Vault Lockboxes: <span id="res-lockbox" style="float:right;font-weight:bold;">$0</span></div>
+            <div>Hard Mode Premium (+10%): <span id="res-hard" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+            <div>Bonus Milestones: <span id="res-bonus" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+            <div>Primary Target Safe Payout: <span id="res-primary" style="color:#fff;float:right;font-weight:bold;">$0</span></div>
+        </div>
+        <h2 style="color:#00ff88;margin-top:15px;font-size:20px;border:none;padding:0;text-align:left;">Net Maze Bank Deposit: <span id="res-total" style="float:right;">$0</span></h2>
     </div>
+</div>
 
-    <!-- 8. Multiplayer Crew Keycard Vault Room -->
-    <div class="section-title">Multiplayer Crew Keycard Vault Room</div>
-    <div class="grid" id="crew-section">
-      <div class="card crew-card">
-        <div class="card-header"><span class="card-title">Crew Room Fertility Statue</span><span class="card-index">#27</span></div>
-        <input type="number" id="item-27" class="price-input" tabindex="27" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card crew-card">
-        <div class="card-header"><span class="card-title">Don't Forgo Blueprints</span><span class="card-index">#28</span></div>
-        <input type="number" id="item-28" class="price-input" tabindex="28" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-      <div class="card crew-card">
-        <div class="card-header"><span class="card-title">Great Circle Back</span><span class="card-index">#29</span></div>
-        <input type="number" id="item-29" class="price-input" tabindex="29" placeholder="$110,000 – $140,000" oninput="updateCalculations()">
-      </div>
-      <div class="card crew-card">
-        <div class="card-header"><span class="card-title">Gemstone</span><span class="card-index">#30</span></div>
-        <input type="number" id="item-30" class="price-input" tabindex="30" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card crew-card">
-        <div class="card-header"><span class="card-title">Meteorite Fragments</span><span class="card-index">#31</span></div>
-        <input type="number" id="item-31" class="price-input" tabindex="31" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-      <div class="card crew-card">
-        <div class="card-header"><span class="card-title">Venus D'Algernon</span><span class="card-index">#32</span></div>
-        <input type="number" id="item-32" class="price-input" tabindex="32" placeholder="$75,000 – $95,000" oninput="updateCalculations()">
-      </div>
-      <div class="card crew-card">
-        <div class="card-header"><span class="card-title">Art Deco Circlets</span><span class="card-index">#33</span></div>
-        <input type="number" id="item-33" class="price-input" tabindex="33" placeholder="$18,000 – $24,000" oninput="updateCalculations()">
-      </div>
-    </div>
-
-    <!-- Manifest Output Section -->
-    <div id="manifest" class="manifest-card">
-      <h3 style="color: var(--accent-color); margin-bottom: 10px;">Recommended Loot Collection Plan</h3>
-      <div id="manifest-list">Enter scoped target values to calculate route...</div>
-    </div>
-
-  </main>
-
-  <!-- End Session Modal -->
-  <div class="modal-overlay" id="end-session-modal">
-    <div class="modal">
-      <h3>End Scoping Session?</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">
-        This will clear all scoped target inputs and prepare the application for your next run.
-      </p>
-      <div class="modal-btns">
-        <button class="hud-btn danger-btn" onclick="resetSession()">Clear All Inputs</button>
-        <button class="hud-btn" onclick="closeEndSessionModal()">Cancel</button>
-      </div>
-    </div>
-  </div>
+<button class="voice-ptt-btn" id="voice-ptt-btn" onclick="toggleVoiceListening()">🎙️</button>
 
 <script src="script.js"></script>
 </body>
