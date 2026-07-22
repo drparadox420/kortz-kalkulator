@@ -1,83 +1,237 @@
-/* Mansion Abstract Geometric Silhouette Background */
+:root {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --border-color: #334155;
+  --text-color: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent-color: #38bdf8;
+  --purple-accent: #b055ff;
+  --gold-accent: #eab308;
+  --danger-color: #ef4444;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+}
+
 body { 
-    font-family: 'Segoe UI', sans-serif; 
-    margin: 0; padding: 20px; background-color: #0c0c12; color: #e2e2e9; 
-    background-image: 
-        radial-gradient(rgba(214, 51, 108, 0.12) 20%, transparent 25%),
-        radial-gradient(rgba(214, 51, 108, 0.12) 20%, transparent 25%),
-        linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
-    background-size: 80px 40px, 80px 40px, 40px 40px, 40px 40px;
-    background-position: 0 0, 40px 20px, 0 0, 0 0; background-attachment: fixed;
+  background-color: var(--bg-color); 
+  color: var(--text-color); 
+  padding-bottom: 60px; 
 }
 
+/* Sticky HUD Bar */
+.sticky-hud {
+  position: sticky; 
+  top: 0; 
+  z-index: 100;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px solid var(--border-color);
+  padding: 12px 20px;
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  flex-wrap: wrap; 
+  gap: 10px;
+}
+
+.hud-title { 
+  font-size: 1.1rem; 
+  font-weight: bold; 
+  color: var(--accent-color); 
+}
+
+.hud-stats { 
+  display: flex; 
+  gap: 15px; 
+  font-size: 0.9rem; 
+  align-items: center; 
+}
+
+.hud-btn {
+  background: #334155; 
+  color: #fff; 
+  border: none; 
+  padding: 6px 12px;
+  border-radius: 4px; 
+  cursor: pointer; 
+  font-size: 0.85rem; 
+  font-weight: 600;
+}
+
+.hud-btn:hover { 
+  background: #475569; 
+}
+
+.danger-btn {
+  background: var(--danger-color);
+}
+
+.danger-btn:hover {
+  background: #dc2626;
+}
+
+/* Main Container */
 .container { 
-    max-width: 1050px; margin: 0 auto; background-color: rgba(18, 18, 26, 0.95); 
-    padding: 30px; border-radius: 12px; border: 1px solid #1f1f2e; box-sizing: border-box; 
-    backdrop-filter: blur(4px); position: relative; 
+  max-width: 1200px; 
+  margin: 20px auto; 
+  padding: 0 15px; 
 }
 
-h1, h2, .col-header { text-align: center; text-transform: uppercase; letter-spacing: 1px; }
-h1 { color: #00ff88; font-size: 38px; margin-bottom: 5px; font-weight: 800; text-shadow: 0 0 12px rgba(0, 255, 136, 0.2); } 
-h2 { color: #00e1ff; border-bottom: 2px solid #222233; padding-bottom: 6px; margin-top: 35px; font-size: 16px; text-decoration: underline; text-underline-offset: 4px; } 
-.subtitle { text-align: center; color: #b055ff; margin-bottom: 35px; font-size: 30px; font-weight: bold; letter-spacing: 0.5px; }
-.note { text-align: center; font-size: 12px; color: #ffaa00; margin-top: -8px; margin-bottom: 15px; font-style: italic; }
-
-/* Consolidated Top Floating Bar (HUD v5.0) */
-.hud-top-bar {
-    position: -webkit-sticky; position: sticky; top: 10px; z-index: 1000;
-    display: flex; justify-content: space-between; align-items: center;
-    background-color: rgba(12, 12, 18, 0.95); border: 1px solid #00e1ff;
-    border-radius: 10px; padding: 10px 15px; margin-bottom: 20px;
-    backdrop-filter: blur(8px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+.section-title { 
+  font-size: 1.2rem; 
+  margin: 20px 0 10px 0; 
+  color: var(--accent-color); 
+  border-bottom: 1px solid var(--border-color); 
+  padding-bottom: 5px; 
 }
 
-.hud-panel-left { display: flex; align-items: center; gap: 10px; }
-.hud-btn { background: #1a1a26; color: #00e1ff; border: 1px solid #00e1ff; padding: 6px 12px; font-size: 11px; font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase; }
-.hud-btn:hover { background: #00e1ff; color: #000; }
+/* Setup Bar */
+.setup-bar { 
+  background: var(--card-bg); 
+  padding: 15px; 
+  border-radius: 8px; 
+  margin-bottom: 20px; 
+  display: flex; 
+  gap: 20px; 
+  flex-wrap: wrap; 
+}
 
-.hud-panel-center { text-align: center; font-size: 11px; color: #ffd480; line-height: 1.3; }
-.hud-panel-center strong { color: #ffaa00; display: block; text-transform: uppercase; font-size: 12px; margin-bottom: 2px; }
+.input-group { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 5px; 
+}
 
-.hud-panel-right { text-align: center; }
-.timer-display { font-size: 20px; font-weight: bold; color: #fff; font-family: monospace; text-shadow: 0 0 8px rgba(0,255,136,0.4); }
-.timer-btn { background-color: #00e1ff; color: #000; border: none; padding: 4px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; cursor: pointer; margin: 2px; text-transform: uppercase; }
+.input-group label { 
+  font-size: 0.85rem; 
+  color: var(--text-muted); 
+}
 
-/* Centered Card Containers */
-.centered-card-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 25px; box-sizing: border-box; }
-.top-panel-card { background-color: #1a1a26; padding: 20px; border-radius: 8px; display: flex; flex-direction: column; gap: 12px; border: 1px solid #28283d; width: 100%; max-width: 510px; box-sizing: border-box; }
-.top-panel-card label { font-weight: bold; color: #00ff88 !important; font-size: 12px; text-transform: uppercase; text-align: center; }
+.input-group select, 
+.input-group input,
+.select-input { 
+  background: #0f172a; 
+  border: 1px solid var(--border-color); 
+  color: #fff; 
+  padding: 8px; 
+  border-radius: 4px; 
+}
 
-/* Grid Column Configurations */
-.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-.card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-.col-header { grid-column: span 1; color: #00e1ff !important; font-size: 13px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; text-align: center; border-bottom: 1px solid #222233; padding-bottom: 4px; }
+/* Grid & Cards */
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+  gap: 15px; 
+}
 
-.loot-card { background-color: #0b0b10; padding: 15px; border-radius: 8px; border: 1px solid #1f1f2e; display: flex; flex-direction: column; gap: 10px; text-align: center; box-sizing: border-box; transition: all 0.2s ease; }
-.item-name { color: #b055ff !important; font-weight: bold; font-size: 14px; text-transform: uppercase; text-align: center; }
-.card-action-row { display: flex; justify-content: space-around; align-items: center; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px; border: 1px solid #222233; margin-top: auto; }
+.card { 
+  background: var(--card-bg); 
+  border: 1px solid var(--border-color); 
+  border-radius: 8px; 
+  padding: 12px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+  position: relative; 
+}
 
-input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-input[type="number"], select { -moz-appearance: textfield; padding: 8px; background-color: #06060a; border: 1px solid #363654; color: #fff; border-radius: 6px; font-size: 13px; box-sizing: border-box; width: 100%; text-align: center; }
-.gold-box-row { background-color: rgba(255, 170, 0, 0.12) !important; border: 1px solid #ffaa00 !important; }
-.card-burned { opacity: 0.35 !important; filter: grayscale(50%); }
-.card-burned .item-name { color: #ff3b30 !important; text-decoration: line-through !important; }
+.card-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
 
-/* Interactive Manifest Route Reordering */
-.manifest-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0, 0, 0, 0.3); padding: 6px 10px; margin-bottom: 4px; border-radius: 4px; border: 1px solid #1f3a2b; }
-.manifest-controls button { background: #1a1a26; color: #00ff88; border: 1px solid #00ff88; border-radius: 3px; padding: 2px 6px; cursor: pointer; font-size: 11px; margin-left: 4px; }
-.manifest-controls button:hover { background: #00ff88; color: #000; }
+.card-title { 
+  font-size: 0.95rem; 
+  font-weight: 600; 
+}
 
-/* Main Execute Action Button */
-.btn-calc { width: 100%; background: linear-gradient(135deg, #00ff88 0%, #00b359 100%); color: #000; font-weight: 800; font-size: 16px; text-transform: uppercase; padding: 14px; border: none; border-radius: 8px; cursor: pointer; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3); transition: all 0.2s ease; }
-.btn-calc:hover { background: linear-gradient(135deg, #33ff9e 0%, #00e673 100%); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4); }
+.card-index { 
+  font-size: 0.75rem; 
+  background: var(--border-color); 
+  padding: 2px 6px; 
+  border-radius: 10px; 
+  color: var(--text-muted); 
+}
 
-.voice-ptt-btn { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; background-color: #00ff88; color: #000; border: 2px solid #06060a; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,255,136,0.4); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 2000; transition: all 0.2s ease; }
-.voice-ptt-btn.listening { background-color: #ff3b30 !important; color: #fff !important; box-shadow: 0 0 20px #ff3b30; animation: pttPulse 1.2s infinite; }
-@keyframes pttPulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.price-input { 
+  background: #0f172a; 
+  border: 1px solid var(--border-color); 
+  color: #fff; 
+  padding: 8px; 
+  border-radius: 4px; 
+  width: 100%; 
+  font-size: 0.9rem; 
+}
 
-@media (max-width: 768px) { 
-    .card-grid, .card-grid-3 { grid-template-columns: 1fr !important; } 
-    .col-header { display: none !important; } 
-    .hud-top-bar { flex-direction: column; gap: 8px; text-align: center; }
+.price-input::placeholder { 
+  color: #64748b; 
+  font-size: 0.85rem; 
+}
+
+/* Special Card Highlights */
+.card-purple { 
+  border: 2px solid var(--purple-accent); 
+  box-shadow: 0 0 10px rgba(176, 85, 255, 0.2); 
+}
+
+.card-purple .badge { 
+  background: var(--purple-accent); 
+  color: #000; 
+  font-size: 0.7rem; 
+  font-weight: bold; 
+  padding: 2px 6px; 
+  border-radius: 4px; 
+}
+
+/* Burned / Disabled State for Solo */
+.card-burned { 
+  opacity: 0.35; 
+  pointer-events: none; 
+  filter: grayscale(1); 
+}
+
+/* Manifest Section */
+.manifest-card { 
+  background: #1e293b; 
+  border: 1px solid var(--accent-color); 
+  padding: 15px; 
+  border-radius: 8px; 
+  margin-top: 20px; 
+}
+
+/* Modal */
+.modal-overlay { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background: rgba(0,0,0,0.8); 
+  display: none; 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 1000; 
+}
+
+.modal { 
+  background: var(--card-bg); 
+  border: 1px solid var(--border-color); 
+  padding: 25px; 
+  border-radius: 8px; 
+  max-width: 400px; 
+  width: 90%; 
+  text-align: center; 
+}
+
+.modal-btns { 
+  display: flex; 
+  justify-content: center; 
+  gap: 10px; 
+  margin-top: 20px; 
 }
