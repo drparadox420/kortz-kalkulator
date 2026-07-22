@@ -4,89 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quartz Center Heist Loot Calculator</title>
-  <style>
-    :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --border-color: #334155;
-      --text-color: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent-color: #38bdf8;
-      --purple-accent: #b055ff;
-      --gold-accent: #eab308;
-      --danger-color: #ef4444;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 60px; }
-
-    /* Sticky HUD Bar */
-    .sticky-hud {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 2px solid var(--border-color);
-      padding: 12px 20px;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
-    }
-    .hud-title { font-size: 1.1rem; font-weight: bold; color: var(--accent-color); }
-    .hud-stats { display: flex; gap: 15px; font-size: 0.9rem; align-items: center; }
-    .hud-btn {
-      background: #334155; color: #fff; border: none; padding: 6px 12px;
-      border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
-    }
-    .hud-btn:hover { background: #475569; }
-
-    /* Main Container */
-    .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
-    .section-title { font-size: 1.2rem; margin: 20px 0 10px 0; color: var(--accent-color); border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
-
-    /* Setup Bar */
-    .setup-bar { background: var(--card-bg); padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 20px; flex-wrap: wrap; }
-    .input-group { display: flex; flex-direction: column; gap: 5px; }
-    .input-group label { font-size: 0.85rem; color: var(--text-muted); }
-    .input-group select, .input-group input { background: #0f172a; border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; }
-
-    /* Grid & Cards */
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-    .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; position: relative; }
-    .card-header { display: flex; justify-content: space-between; align-items: center; }
-    .card-title { font-size: 0.95rem; font-weight: 600; }
-    .card-index { font-size: 0.75rem; background: var(--border-color); padding: 2px 6px; border-radius: 10px; color: var(--text-muted); }
-    
-    .price-input { background: #0f172a; border: 1px solid var(--border-color); color: #fff; padding: 8px; border-radius: 4px; width: 100%; font-size: 0.9rem; }
-    .price-input::placeholder { color: #64748b; font-size: 0.85rem; }
-
-    /* Special Card Highlights */
-    .card-purple { border: 2px solid var(--purple-accent); box-shadow: 0 0 10px rgba(176, 85, 255, 0.2); }
-    .card-purple .badge { background: var(--purple-accent); color: #000; font-size: 0.7rem; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
-    
-    .card-buyer { border: 1px solid var(--gold-accent); }
-    .buyer-checkbox { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--gold-accent); cursor: pointer; }
-
-    /* Burned / Disabled State for Solo */
-    .card-burned { opacity: 0.35; pointer-events: none; filter: grayscale(1); }
-
-    /* Manifest Section */
-    .manifest-card { background: #1e293b; border: 1px solid var(--accent-color); padding: 15px; border-radius: 8px; margin-top: 20px; }
-    .manifest-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
-
-    /* Modal */
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; }
-    .modal { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; max-width: 400px; width: 90%; text-align: center; }
-    .modal-btns { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <!-- Sticky Top HUD -->
+  <!-- Sticky Top HUD Bar -->
   <header class="sticky-hud">
     <div class="hud-title">Quartz Center Scope-Out</div>
     <div class="hud-stats">
-      <span>Total Yield: <strong id="hud-total" style="color: var(--accent-color);">$0</strong></span>
+      <span>Total Yield: <strong id="hud-total">$0</strong></span>
       <span>Bags: <strong id="hud-bags">0%</strong></span>
-      <button class="hud-btn" onclick="document.getElementById('manifest').scrollIntoView({behavior: 'smooth'})">↓ Results</button>
-      <button class="hud-btn" onclick="openEndSessionModal()">End Run Session</button>
+      <button class="hud-btn" onclick="scrollToManifest()">↓ Results</button>
+      <button class="hud-btn danger-btn" onclick="openEndSessionModal()">End Run Session</button>
     </div>
   </header>
 
@@ -105,9 +34,9 @@
       </div>
     </div>
 
+    <!-- 1. Primary Target -->
     <div class="section-title">Primary Target</div>
     <div class="grid">
-      <!-- 1. Primary Target Safe Yield -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">Primary Target Safe Yield</span>
@@ -117,6 +46,7 @@
       </div>
     </div>
 
+    <!-- 2. Middle Level: Main Entrance Sweep -->
     <div class="section-title">Middle Level: Main Entrance Sweep</div>
     <div class="grid">
       <div class="card">
@@ -141,6 +71,7 @@
       </div>
     </div>
 
+    <!-- 3. Middle Level: Windows & Staircase Core -->
     <div class="section-title">Middle Level: Windows & Staircase Core</div>
     <div class="grid">
       <div class="card">
@@ -173,6 +104,7 @@
       </div>
     </div>
 
+    <!-- 4. Vault Room Security Monitor Loops -->
     <div class="section-title">Vault Room Security Monitor Loops</div>
     <div class="grid">
       <div class="card">
@@ -193,15 +125,15 @@
       </div>
     </div>
 
+    <!-- 5. Tactical Loading Area -->
     <div class="section-title">Tactical Loading Area</div>
     <div class="grid">
-      <!-- High Priority Loading Bay Asset -->
       <div class="card card-purple">
         <div class="card-header">
           <span class="card-title">Loading Bay Van Cargo</span>
           <span class="badge">HIGH PRIORITY</span>
         </div>
-        <select id="item-van-state" onchange="updateCalculations()">
+        <select id="item-van-state" class="select-input" onchange="updateCalculations()">
           <option value="none">Asset Not Present</option>
           <option value="default">Use Standard Average ($125,000)</option>
           <option value="custom">Manual Price Input</option>
@@ -210,6 +142,7 @@
       </div>
     </div>
 
+    <!-- 6. Downstairs Level -->
     <div class="section-title">Downstairs Level (Elevator Tower Row)</div>
     <div class="grid">
       <div class="card">
@@ -226,6 +159,7 @@
       </div>
     </div>
 
+    <!-- 7. Upstairs Level Floor Assets -->
     <div class="section-title">Upstairs Level Floor Assets</div>
     <div class="grid">
       <div class="card">
@@ -254,6 +188,7 @@
       </div>
     </div>
 
+    <!-- 8. Multiplayer Crew Keycard Vault Room -->
     <div class="section-title">Multiplayer Crew Keycard Vault Room</div>
     <div class="grid" id="crew-section">
       <div class="card crew-card">
@@ -302,72 +237,12 @@
         This will clear all scoped target inputs and prepare the application for your next run.
       </p>
       <div class="modal-btns">
-        <button class="hud-btn" style="background: var(--danger-color);" onclick="resetSession()">Clear All Inputs</button>
+        <button class="hud-btn danger-btn" onclick="resetSession()">Clear All Inputs</button>
         <button class="hud-btn" onclick="closeEndSessionModal()">Cancel</button>
       </div>
     </div>
   </div>
 
-  <script>
-    function updateCalculations() {
-      const crewSize = parseInt(document.getElementById('crew-size').value);
-      const crewCards = document.querySelectorAll('.crew-card');
-      
-      // Auto-lockout/burn crew room items on Solo runs
-      crewCards.forEach(card => {
-        if (crewSize === 1) {
-          card.classList.add('card-burned');
-          card.querySelectorAll('input').forEach(i => i.value = '');
-        } else {
-          card.classList.remove('card-burned');
-        }
-      });
-
-      // Handle Van 3-state selector
-      const vanState = document.getElementById('item-van-state').value;
-      const vanCustomInput = document.getElementById('item-van-custom');
-      if (vanState === 'custom') {
-        vanCustomInput.style.display = 'block';
-      } else {
-        vanCustomInput.style.display = 'none';
-      }
-
-      // Gather current totals
-      let totalValue = 0;
-      let primaryVal = parseFloat(document.getElementById('item-1').value) || 0;
-      totalValue += primaryVal;
-
-      for (let i = 2; i <= 33; i++) {
-        let el = document.getElementById('item-' + i);
-        if (el && el.value) {
-          totalValue += parseFloat(el.value);
-        }
-      }
-
-      if (vanState === 'default') totalValue += 125000;
-      if (vanState === 'custom' && vanCustomInput.value) totalValue += parseFloat(vanCustomInput.value);
-
-      document.getElementById('hud-total').innerText = '$' + totalValue.toLocaleString();
-    }
-
-    function openEndSessionModal() {
-      document.getElementById('end-session-modal').style.display = 'flex';
-    }
-
-    function closeEndSessionModal() {
-      document.getElementById('end-session-modal').style.display = 'none';
-    }
-
-    function resetSession() {
-      for (let i = 1; i <= 33; i++) {
-        let el = document.getElementById('item-' + i);
-        if (el) el.value = '';
-      }
-      document.getElementById('item-van-state').value = 'none';
-      document.getElementById('item-van-custom').value = '';
-      updateCalculations();
-      closeEndSessionModal();
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
